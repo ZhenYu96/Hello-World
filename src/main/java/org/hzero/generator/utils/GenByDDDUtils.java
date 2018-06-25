@@ -180,6 +180,10 @@ public class GenByDDDUtils {
 	public static String getFileName(String template, String className, String packageName) {
 
 		String javaPackagePath = "main" + File.separator + "java" + File.separator;
+		
+		if (StringUtils.isNotBlank(packageName)) {
+          javaPackagePath += packageName.replace(".", File.separator) + File.separator;
+        }
 
 		String resourcePackagePath = "main" + File.separator + "resources" + File.separator;
 
