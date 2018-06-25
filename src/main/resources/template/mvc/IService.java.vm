@@ -1,0 +1,15 @@
+package ${package}.${moduleName}.service;
+
+import ${package}.${moduleName}.core.IService;
+import ${package}.${moduleName}.dto.${className};
+
+/**
+ * ${comments}服务接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${className}Service extends IService<${className}> {
+
+}
+
