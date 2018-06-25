@@ -27,7 +27,7 @@ maven-test-docker:
     - cp target/app.jar /cache/${CI_PROJECT_NAME}-${CI_PROJECT_ID}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}/app.jar
   only:
     - tags
-    - develop
+    - master
     - /^release-.*$/
     - /^hotfix-.*$/
 
@@ -38,7 +38,7 @@ docker-build:
     - chart_build
   only:
     - tags
-    - develop
+    - master
     - /^release-.*$/
     - /^hotfix-.*$/
 

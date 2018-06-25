@@ -1,0 +1,14 @@
+package ${package}.${moduleName}.mapper;
+
+import ${package}.${moduleName}.core.Mapper;
+import ${package}.${moduleName}.dto.${className};
+
+/**
+ * ${comments}Mapper接口
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Mapper extends Mapper<${className}> {
+	
+}

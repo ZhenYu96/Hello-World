@@ -1,0 +1,78 @@
+package ${package}.domain.entity;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import io.choerodon.mybatis.annotation.ModifyAudit;
+import io.choerodon.mybatis.annotation.VersionAudit;
+import io.choerodon.mybatis.domain.AuditDomain;
+import javax.persistence.*;
+
+/**
+ * ${comments}
+ *
+ * @author ${author} ${datetime}
+ */
+@VersionAudit
+@ModifyAudit
+@Table(name = "${tableName}")
+public class ${className} extends AuditDomain {
+
+#foreach ($column in $columns)
+#if($column.columnName != "object_version_number" && $column.columnName != "creation_date" && 
+$column.columnName != "created_by" && $column.columnName != "last_update_date" && $column.columnName != "last_updated_by")
+    public static final String FILED_$column.upperColumnName = "$column.attrname";
+#end
+#end
+
+    //
+    // 业务方法(按public protected private顺序排列)
+    // ------------------------------------------------------------------------------
+
+    //
+    // 数据库字段
+    // ------------------------------------------------------------------------------
+
+
+#foreach ($column in $columns)
+#if($column.columnName != "object_version_number" && $column.columnName != "creation_date" && 
+$column.columnName != "created_by" && $column.columnName != "last_update_date" && $column.columnName != "last_updated_by")
+	#if($column.columnName == $pk.columnName)
+@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	#end
+private $column.attrType $column.attrname;
+#end
+#end
+
+	//
+    // 非数据库字段
+    // ------------------------------------------------------------------------------
+     
+    //
+    // getter/setter
+    // ------------------------------------------------------------------------------
+
+#foreach ($column in $columns)
+#if($column.columnName != "object_version_number" && $column.columnName != "creation_date" && 
+$column.columnName != "created_by" && $column.columnName != "last_update_date" && $column.columnName != "last_updated_by")
+    /**
+     * @return $column.comments
+     */
+	public $column.attrType get${column.attrName}() {
+		return $column.attrname;
+	}
+		
+	public void set${column.attrName}($column.attrType $column.attrname) {
+		this.$column.attrname = $column.attrname;
+	}
+#end	
+#end
+
+}
