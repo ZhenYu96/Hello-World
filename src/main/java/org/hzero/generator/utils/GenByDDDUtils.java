@@ -117,6 +117,7 @@ public class GenByDDDUtils {
 		map.put("className", tableEntity.getClassName());
 		map.put("classname", tableEntity.getClassname());
 		map.put("upperClassName", StringUtils.upperCase(tableEntity.getTableName()));
+		map.put("lineClassName", GenStringUtils.camelToHorizontalline(tableEntity.getClassname()));
 		map.put("pathName", tableEntity.getClassname().toLowerCase());
 		map.put("columns", tableEntity.getColumns());
 		map.put("hasBigDecimal", hasBigDecimal);

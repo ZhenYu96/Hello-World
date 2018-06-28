@@ -22,7 +22,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * @author ${author} ${datetime}
  */
 @RestController("${classname}Controller.v1")
-@RequestMapping("/v1/${classname}s")
+@RequestMapping("/v1/${lineClassName}s")
 public class ${className}Controller extends BaseController {
 
     @Autowired
