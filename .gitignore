@@ -6,6 +6,7 @@ target/
 .settings/
 .project
 .classpath
+*rebel.xml
 
 # idea ignore
 .idea/
