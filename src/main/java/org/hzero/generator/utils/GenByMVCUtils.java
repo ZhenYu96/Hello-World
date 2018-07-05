@@ -119,8 +119,6 @@ public class GenByMVCUtils {
 		map.put("columns", tableEntity.getColumns());
 		map.put("hasBigDecimal", hasBigDecimal);
 		map.put("package", StringUtils.isBlank(info.getPkg()) ? config.getString("pkg") : info.getPkg());
-		map.put("moduleName",
-				StringUtils.isBlank(info.getModuleName()) ? config.getString("moduleName") : info.getModuleName());
 		map.put("author", StringUtils.isBlank(info.getAuthor()) ? config.getString("author") : info.getAuthor());
 		map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
 		VelocityContext context = new VelocityContext(map);
@@ -135,8 +133,7 @@ public class GenByMVCUtils {
 
 			try {
 				// 添加到zip
-				zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(),
-						map.get("package").toString(), map.get("moduleName").toString())));
+				zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(),map.get("package").toString())));
 				IOUtils.write(sw.toString(), zip, "UTF-8");
 				IOUtils.closeQuietly(sw);
 				zip.closeEntry();
@@ -177,10 +174,10 @@ public class GenByMVCUtils {
 	/**
 	 * 获取文件名
 	 */
-	public static String getFileName(String template, String className, String packageName, String moduleName) {
+	public static String getFileName(String template, String className, String packageName) {
 		String packagePath = "main" + File.separator + "java" + File.separator;
 		if (StringUtils.isNotBlank(packageName)) {
-			packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
+			packagePath += packageName.replace(".", File.separator) + File.separator;
 		}
 
 		if (template.contains("Dto.java.vm")) {
@@ -204,8 +201,7 @@ public class GenByMVCUtils {
 		}
 
 		if (template.contains("Mapper.xml.vm")) {
-			return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName
-					+ File.separator + className + "Mapper.xml";
+			return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + className + "Mapper.xml";
 		}
 		return null;
 	}

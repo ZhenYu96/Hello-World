@@ -58,7 +58,7 @@ var vm = new Vue({
 			if(tableNames == null){
 				return ;
 			}
-			location.href = "sys/generator/mvc/code?moduleName="+vm.info.moduleName+"&tablePrefix="+vm.info.tablePrefix+"&pkg="+vm.info.pkg+"&author="+vm.info.author+"&tables=" + JSON.stringify(tableNames);
+			location.href = "sys/generator/mvc/code?tablePrefix="+vm.info.tablePrefix+"&pkg="+vm.info.pkg+"&author="+vm.info.author+"&tables=" + JSON.stringify(tableNames);
 			/*
 			$.ajax({
 				type: "POST",
@@ -72,12 +72,16 @@ var vm = new Vue({
 			*/
 		},
 		validator: function () {
-            if(isBlank(vm.info.moduleName)){
-                alert("模块简码不能为空");
+			if(isBlank(vm.info.tablePrefix)){
+                alert("表过滤前缀不能为空");
                 return true;
             }
             if(isBlank(vm.info.pkg)){
                 alert("包前缀不能为空");
+                return true;
+            }
+            if(isBlank(vm.info.author)){
+                alert("代码作者不能为空");
                 return true;
             }
         }

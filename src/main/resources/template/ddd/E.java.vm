@@ -45,7 +45,7 @@ $column.columnName != "created_by" && $column.columnName != "last_update_date" &
 $column.columnName != "created_by" && $column.columnName != "last_update_date" && $column.columnName != "last_updated_by")
 	#if($column.columnName == $pk.columnName)
 @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
 	#end
 private $column.attrType $column.attrname;
 #end

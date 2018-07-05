@@ -10,8 +10,6 @@ package org.hzero.generator.dto;
  */
 public class GeneratorInfo {
 
-	private String moduleName;
-
 	private String tablePrefix;
 
 	private String pkg;
@@ -19,14 +17,6 @@ public class GeneratorInfo {
 	private String author;
 
 	private String[] tableNames;
-
-	public String getModuleName() {
-		return moduleName;
-	}
-
-	public void setModuleName(String moduleName) {
-		this.moduleName = moduleName;
-	}
 
 	public String getTablePrefix() {
 		return tablePrefix;

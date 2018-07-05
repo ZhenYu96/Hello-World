@@ -1,7 +1,7 @@
-package ${package}.${moduleName}.mapper;
+package ${package}.mapper;
 
-import ${package}.${moduleName}.core.Mapper;
-import ${package}.${moduleName}.dto.${className};
+import ${package}.core.Mapper;
+import ${package}.dto.${className};
 
 /**
  * ${comments}Mapper接口

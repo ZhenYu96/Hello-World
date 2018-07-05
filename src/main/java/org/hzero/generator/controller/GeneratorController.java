@@ -86,7 +86,6 @@ public class GeneratorController {
 		String tables = request.getParameter("tables");
 		tableNames = JSON.parseArray(tables).toArray(tableNames);
 		info.setTableNames(tableNames);
-		info.setModuleName(request.getParameter("moduleName"));
 		info.setTablePrefix(request.getParameter("tablePrefix"));
 		info.setPkg(request.getParameter("pkg"));
 		info.setAuthor(request.getParameter("author"));
