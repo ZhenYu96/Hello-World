@@ -1,49 +1,41 @@
-# Default values for manager-service.
+# Default values for api-gateway.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: registry.cn-hangzhou.aliyuncs.com/choerodon-devops/devops-service
+  repository: registry.choerodon.com.cn/choerodon/hzero-generator
   pullPolicy: Always
-
-
-env:
-  open:
-    SPRING_DATASOURCE_URL: jdbc:mysql://192.168.12.103:4000/hzero_generator?useUnicode=true&characterEncoding=UTF-8
-    SPRING_DATASOURCE_USERNAME: hzero
-    SPRING_DATASOURCE_PASSWORD: hzero
-
 
 metrics:
   path: /prometheus
   group: spring-boot
 
 logs:
- parser: spring-boot
-
-persistence:
-  enabled: false
-  ## A manually managed Persistent Volume and Claim
-  ## Requires persistence.enabled: true
-  ## If defined, PVC must be created manually before volume will be bound
-  # existingClaim:
-  # subPath:
+  parser: spring-boot
 
 service:
-  enabled: false
+  enable: false
   type: ClusterIP
   port: 8080
+  name: hzero-platform-fe
 
-resources:
+ingress:
+  enable: false
+  host: dev.hzero.org
+
+env:
+  # open:
+  #   PRO_API_HOST: api.example.com
+resources: 
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources,such as Minikube. If you do want to specify resources,uncomment the following
   # lines,adjust them as necessary,and remove the curly braces after 'resources:'.
   limits:
     # cpu: 100m
-    memory: 2Gi
+    # memory: 2Gi
   requests:
     # cpu: 100m
-    memory: 1.5Gi
+    # memory: 1Gi

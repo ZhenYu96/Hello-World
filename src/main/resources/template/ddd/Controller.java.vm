@@ -1,13 +1,13 @@
 package ${package}.api.controller.v1;
 
 import org.hzero.boot.supporter.utils.Results;
+import org.hzero.boot.supporter.base.BaseController;
 import ${package}.domain.entity.${className};
 import ${package}.domain.repository.${className}Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import io.choerodon.core.base.BaseController;
 import io.choerodon.core.domain.Page;
 import io.choerodon.mybatis.pagehelper.annotation.SortDefault;
 import io.choerodon.mybatis.pagehelper.domain.PageRequest;
