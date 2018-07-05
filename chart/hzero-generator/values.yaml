@@ -1,12 +1,27 @@
-# Default values for api-gateway.
+# Default values for file-service.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: registry.choerodon.com.cn/choerodon/hzero-generator
+  repository: registry.cn-hangzhou.aliyuncs.com/choerodon-devops/hzero-generator
   pullPolicy: Always
+
+deployment:
+  managementPort: 8081
+
+env:
+  open:
+    SPRING_DATASOURCE_URL: jdbc:mysql://172.20.0.202:3306/hzero_generator?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    SPRING_DATASOURCE_USERNAME: root
+    SPRING_DATASOURCE_PASSWORD: root
+
+service:
+  enable: false
+  type: ClusterIP
+  port: 8080
+  name: hzero-generator
 
 metrics:
   path: /prometheus
@@ -15,19 +30,6 @@ metrics:
 logs:
   parser: spring-boot
 
-service:
-  enable: false
-  type: ClusterIP
-  port: 8080
-  name: hzero-platform-fe
-
-ingress:
-  enable: false
-  host: dev.hzero.org
-
-env:
-  # open:
-  #   PRO_API_HOST: api.example.com
 resources: 
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -35,7 +37,7 @@ resources:
   # lines,adjust them as necessary,and remove the curly braces after 'resources:'.
   limits:
     # cpu: 100m
-    # memory: 2Gi
+    memory: 2Gi
   requests:
     # cpu: 100m
-    # memory: 1Gi
+    memory: 1Gi

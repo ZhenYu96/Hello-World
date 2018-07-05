@@ -9,13 +9,14 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-{{ include "service.labels.standard" . | indent 6 }}
+{{ include "service.match.labels" . | indent 6 }}
   template:
     metadata:
-      labels:
-{{ include "service.labels.standard" . | indent 8 }}
       annotations:
 {{ include "service.monitoring.pod.annotations" . | indent 8 }}
+      labels:
+{{ include "service.microservice.labels" . | indent 8 }}
+{{ include "service.labels.standard" . | indent 8 }}
     spec:
       containers:
         - name: {{ .Release.Name }}
@@ -32,5 +33,20 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: {{ .Values.deployment.managementPort }}
+          #     scheme: HTTP
+          readinessProbe:
+            exec:
+              command:
+              - curl
+              - localhost:{{ .Values.deployment.managementPort }}/health
+            failureThreshold: 3
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
           resources:
 {{ toYaml .Values.resources | indent 12 }}
