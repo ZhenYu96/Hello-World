@@ -115,6 +115,7 @@ public class GenByDDDUtils {
 		map.put("tableName", tableEntity.getTableName());
 		map.put("comments", tableEntity.getComments());
 		map.put("pk", tableEntity.getPk());
+		map.put("pkUpperFileName", StringUtils.upperCase(tableEntity.getPk().getColumnName()));
 		map.put("className", tableEntity.getClassName());
 		map.put("classname", tableEntity.getClassname());
 		map.put("upperClassName", StringUtils.upperCase(tableEntity.getTableName()));

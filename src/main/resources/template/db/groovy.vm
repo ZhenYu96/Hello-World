@@ -1,0 +1,22 @@
+package script.db
+
+databaseChangeLog(logicalFilePath: '${tableName}.groovy') {
+    changeSet(id: '${.now?string("yyyyMMdd")}-add-table-${tableName}', author: '${author}') {
+        createTable(tableName: "${tableName}") {
+            column(name: 'storage_type', type: 'Tinyint(1)', remarks: '$column.comments') {
+                constraints(primaryKey: true)
+            }
+            column(name: 'value', type: 'LongText', remarks: '配置JSON数据') {
+                constraints(unique: false)
+            }
+            column(name: 'default_flag', type: 'Tinyint(1)', remarks: '默认标识') {
+                constraints(unique: false)
+            }
+            column(name: "object_version_number", type: "BIGINT UNSIGNED", defaultValue: "1")
+            column(name: "created_by", type: "BIGINT UNSIGNED", defaultValue: "0")
+            column(name: "creation_date", type: "DATETIME", defaultValueComputed: "CURRENT_TIMESTAMP")
+            column(name: "last_updated_by", type: "BIGINT UNSIGNED", defaultValue: "0")
+            column(name: "last_update_date", type: "DATETIME", defaultValueComputed: "CURRENT_TIMESTAMP")
+        }
+    }
+}
