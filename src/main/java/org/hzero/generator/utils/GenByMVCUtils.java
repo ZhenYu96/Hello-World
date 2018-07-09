@@ -74,6 +74,7 @@ public class GenByMVCUtils {
 			columnEntity.setDataType(column.get("dataType"));
 			columnEntity.setComments(column.get("columnComment"));
 			columnEntity.setExtra(column.get("extra"));
+	        columnEntity.setNullAble(column.get("nullAble"));
 
 			// 列名转换成Java属性名
 			String attrName = columnToJava(columnEntity.getColumnName());

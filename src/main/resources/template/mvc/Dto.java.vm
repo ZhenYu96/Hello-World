@@ -1,44 +1,53 @@
 package ${package}.dto;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hzero.boot.supporter.entity.AuditDomain;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end
-import java.io.Serializable;
-import java.util.Date;
+import io.choerodon.mybatis.annotation.ModifyAudit;
+import io.choerodon.mybatis.annotation.VersionAudit;
+import javax.persistence.*;
 
 /**
  * ${comments}
- * 
- * @author ${author}
- * @date ${datetime}
+ *
+ * @author ${author} ${datetime}
  */
+@VersionAudit
+@ModifyAudit
 @Table(name = "${tableName}")
-public class ${className} implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ${className} extends AuditDomain {
 	
 #foreach ($column in $columns)
-    public static final String FILED_$column.upperColumnName = "$column.attrname"; // $column.comments
+#if($column.columnName != "object_version_number" && $column.columnName != "creation_date" && 
+$column.columnName != "created_by" && $column.columnName != "last_update_date" && $column.columnName != "last_updated_by")
+    public static final String FILED_$column.upperColumnName = "$column.attrname";
+#end
 #end
 
 #foreach ($column in $columns)
-	/**
-	 * $column.comments
-	 */
-	#if($column.columnName == $pk.columnName)
-@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    #else
-@Column
-	#end
-private $column.attrType $column.attrname;
-
+#if($column.columnName != "object_version_number" && $column.columnName != "creation_date" && 
+$column.columnName != "created_by" && $column.columnName != "last_update_date" && $column.columnName != "last_updated_by")
+#if($column.columnName == $pk.columnName)
+    @Id
+    @GeneratedValue
+#else
+#if($column.nullAble == 'NO')
+#if($column.attrType == 'String')
+    @NotBlank
+#else  
+    @NotNull
+#end    
+#end
+#end
+    private $column.attrType $column.attrname;
+#end
 #end
 
 #foreach ($column in $columns)

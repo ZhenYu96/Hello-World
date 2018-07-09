@@ -27,6 +27,8 @@ public class ColumnEntity {
 	private String extra;
 	// JDBC类型
 	private String jdbcType;
+	// nullAble
+	private String nullAble;
 
 	public String getColumnName() {
 		return columnName;
@@ -99,5 +101,13 @@ public class ColumnEntity {
 	public void setJdbcType(String jdbcType) {
 		this.jdbcType = jdbcType;
 	}
+
+    public String getNullAble() {
+        return nullAble;
+    }
+
+    public void setNullAble(String nullAble) {
+        this.nullAble = nullAble;
+    }
 
 }

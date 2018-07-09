@@ -43,11 +43,19 @@ $column.columnName != "created_by" && $column.columnName != "last_update_date" &
 #foreach ($column in $columns)
 #if($column.columnName != "object_version_number" && $column.columnName != "creation_date" && 
 $column.columnName != "created_by" && $column.columnName != "last_update_date" && $column.columnName != "last_updated_by")
-	#if($column.columnName == $pk.columnName)
-@Id
+#if($column.columnName == $pk.columnName)
+    @Id
     @GeneratedValue
-	#end
-private $column.attrType $column.attrname;
+#else
+#if($column.nullAble == 'NO')
+#if($column.attrType == 'String')
+    @NotBlank
+#else  
+    @NotNull
+#end    
+#end
+#end
+    private $column.attrType $column.attrname;
 #end
 #end
 
