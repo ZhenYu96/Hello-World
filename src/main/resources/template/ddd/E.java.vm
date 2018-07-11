@@ -27,7 +27,7 @@ public class ${className} extends AuditDomain {
 #foreach ($column in $columns)
 #if($column.columnName != "object_version_number" && $column.columnName != "creation_date" && 
 $column.columnName != "created_by" && $column.columnName != "last_update_date" && $column.columnName != "last_updated_by")
-    public static final String FILED_$column.upperColumnName = "$column.attrname";
+    public static final String FIELD_$column.upperColumnName = "$column.attrname";
 #end
 #end
 
