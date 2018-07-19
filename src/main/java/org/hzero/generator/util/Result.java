@@ -1,4 +1,4 @@
-package org.hzero.generator.utils;
+package org.hzero.generator.util;
 
 import java.util.HashMap;
 import java.util.Map;

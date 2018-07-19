@@ -19,7 +19,8 @@ public class TableEntity {
 	private ColumnEntity pk;
 	// 表的列名(不包含主键)
 	private List<ColumnEntity> columns;
-
+	// 表的索引
+	private List<IndexEntity> indexs;
 	// 类名(第一个字母大写)，如：sys_user => SysUser
 	private String className;
 	// 类名(第一个字母小写)，如：sys_user => sysUser
@@ -57,7 +58,15 @@ public class TableEntity {
 		this.columns = columns;
 	}
 
-	public String getClassName() {
+	public List<IndexEntity> getIndexs() {
+        return indexs;
+    }
+
+    public void setIndexs(List<IndexEntity> indexs) {
+        this.indexs = indexs;
+    }
+
+    public String getClassName() {
 		return className;
 	}
 

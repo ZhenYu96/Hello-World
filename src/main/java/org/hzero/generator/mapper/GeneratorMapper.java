@@ -17,13 +17,15 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface GeneratorMapper {
 
-	List<Map<String, Object>> queryList(Map<String, Object> map);
+    List<Map<String, Object>> queryList(Map<String, Object> map);
 
-	int queryTotal(Map<String, Object> map);
+    int queryTotal(Map<String, Object> map);
 
-	Map<String, String> queryTable(String tableName);
+    Map<String, String> queryTable(String tableName);
 
-	List<Map<String, String>> queryColumns(String tableName);
-	
-	void executeDDL(@Param("sql") String sql);
+    List<Map<String, String>> queryColumns(String tableName);
+
+    List<Map<String, String>> queryIndexs(String tableName);
+
+    void executeDDL(@Param("sql") String sql);
 }

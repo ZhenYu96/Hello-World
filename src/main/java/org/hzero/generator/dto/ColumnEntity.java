@@ -13,8 +13,12 @@ public class ColumnEntity {
 	private String columnName;
 	// 列名（全大写）
 	private String upperColumnName;
-	// 列名类型
+	// 列数据类型
 	private String dataType;
+	// 列字段类型
+    private String columnType;
+    // 列字段默认值
+    private String columnDefault;
 	// 列名备注
 	private String comments;
 	// 属性名称(第一个字母大写)，如：user_name => UserName
@@ -54,7 +58,23 @@ public class ColumnEntity {
 		this.dataType = dataType;
 	}
 
-	public String getComments() {
+	public String getColumnType() {
+        return columnType;
+    }
+
+    public void setColumnType(String columnType) {
+        this.columnType = columnType;
+    }
+
+    public String getColumnDefault() {
+        return columnDefault;
+    }
+
+    public void setColumnDefault(String columnDefault) {
+        this.columnDefault = columnDefault;
+    }
+
+    public String getComments() {
 		return comments;
 	}
 

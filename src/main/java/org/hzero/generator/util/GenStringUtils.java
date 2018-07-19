@@ -1,4 +1,4 @@
-package org.hzero.generator.utils;
+package org.hzero.generator.util;
 
 /**
  * 生成器字符串工具类

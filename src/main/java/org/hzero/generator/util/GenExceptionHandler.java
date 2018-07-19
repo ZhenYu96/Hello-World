@@ -1,4 +1,4 @@
-package org.hzero.generator.utils;
+package org.hzero.generator.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

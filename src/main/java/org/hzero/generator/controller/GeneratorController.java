@@ -12,10 +12,11 @@ import org.apache.commons.io.IOUtils;
 import org.hzero.generator.dto.DDLEntity;
 import org.hzero.generator.dto.GeneratorInfo;
 import org.hzero.generator.service.IGeneratorService;
-import org.hzero.generator.utils.DateUtils;
-import org.hzero.generator.utils.PageUtils;
-import org.hzero.generator.utils.Query;
-import org.hzero.generator.utils.Result;
+import org.hzero.generator.util.DateUtils;
+import org.hzero.generator.util.GeneratorUtils;
+import org.hzero.generator.util.PageUtils;
+import org.hzero.generator.util.Query;
+import org.hzero.generator.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,7 +73,7 @@ public class GeneratorController {
 		response.reset();
 		response.setHeader("Content-Disposition", "attachment; filename=\"code" + DateUtils.format(new Date(),DateUtils.DATETIME_PATTERN) + ".zip\"");
 		response.addHeader("Content-Length", "" + data.length);
-		response.setContentType("application/octet-stream; charset=UTF-8");
+		response.setContentType("application/octet-stream; charset="+GeneratorUtils.DEFAULT_CHARACTER_SET);
 		IOUtils.write(data, response.getOutputStream());
 	}
 
@@ -93,9 +94,28 @@ public class GeneratorController {
 		response.reset();
 		response.setHeader("Content-Disposition", "attachment; filename=\"code" + DateUtils.format(new Date(),DateUtils.DATETIME_PATTERN) + ".zip\"");
 		response.addHeader("Content-Length", "" + data.length);
-		response.setContentType("application/octet-stream; charset=UTF-8");
+		response.setContentType("application/octet-stream; charset="+GeneratorUtils.DEFAULT_CHARACTER_SET);
 		IOUtils.write(data, response.getOutputStream());
 	}
+	
+	   /**
+     * DDD模型生成代码
+     */
+    @RequestMapping("/db/code")
+    public void codeByDBScipt(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        GeneratorInfo info = new GeneratorInfo();
+        String[] tableNames = new String[] {};
+        String tables = request.getParameter("tables");
+        tableNames = JSON.parseArray(tables).toArray(tableNames);
+        info.setTableNames(tableNames);
+        info.setAuthor(request.getParameter("author"));
+        byte[] data = generatorService.generatorDBScript(info);
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=\"dbscript" + DateUtils.format(new Date(),DateUtils.DATETIME_PATTERN) + ".zip\"");
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset="+GeneratorUtils.DEFAULT_CHARACTER_SET);
+        IOUtils.write(data, response.getOutputStream());
+    }
 	
 	/**
 	 * SQL语句执行

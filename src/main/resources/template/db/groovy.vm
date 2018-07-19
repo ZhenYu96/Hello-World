@@ -1,22 +1,29 @@
 package script.db
 
-databaseChangeLog(logicalFilePath: '${tableName}.groovy') {
-    changeSet(id: '${.now?string("yyyyMMdd")}-add-table-${tableName}', author: '${author}') {
-        createTable(tableName: "${tableName}") {
-            column(name: 'storage_type', type: 'Tinyint(1)', remarks: '$column.comments') {
-                constraints(primaryKey: true)
-            }
-            column(name: 'value', type: 'LongText', remarks: '配置JSON数据') {
-                constraints(unique: false)
-            }
-            column(name: 'default_flag', type: 'Tinyint(1)', remarks: '默认标识') {
-                constraints(unique: false)
-            }
-            column(name: "object_version_number", type: "BIGINT UNSIGNED", defaultValue: "1")
-            column(name: "created_by", type: "BIGINT UNSIGNED", defaultValue: "0")
-            column(name: "creation_date", type: "DATETIME", defaultValueComputed: "CURRENT_TIMESTAMP")
-            column(name: "last_updated_by", type: "BIGINT UNSIGNED", defaultValue: "0")
-            column(name: "last_update_date", type: "DATETIME", defaultValueComputed: "CURRENT_TIMESTAMP")
-        }
+databaseChangeLog(logicalFilePath: 'script/db/${tableName}.groovy') {
+    changeSet(author: "${author}", id: "${datetime}-${tableName}") {
+        createTable(tableName: "${tableName}" remarks: "${tableComment}") {
+#foreach ($column in $columns)
+        column(name: "$column.columnName", type: "$column.columnType",#if($column.extra == "auto_increment") auto_increment:"true" #end #if($column.columnDefault != "NULL") #if($column.columnType == "datetime") defaultValueComputed:"$column.columnDefault" #else defaultValue:"$column.columnDefault" #end #end remarks: "$column.comments") #if($column.columnName == $pk.columnName){constraints(primaryKey: true)} #else #if($column.nullAble == 'NO'){constraints(nullable:"false")} #end #end
+
+#end
+
     }
+#foreach ($index in $indexs)
+#if($index.indexType == "N")
+   createIndex(tableName: "$index.tableName", indexName: "$index.indexName") {
+     #foreach ($indexCol in $index.indexColumns)
+       column(name: "$indexCol")
+     #end
+   }          
+#end
+#end
+  }    
+  
+#foreach ($index in $indexs)
+#if($index.indexType == "U")
+   addUniqueConstraint(columnNames:"$index.indexColumn",tableName:"$index.tableName",constraintName: "$index.indexName")         
+#end
+#end    
+
 }

@@ -31,12 +31,31 @@
 	</select>
 
 	<select id="queryColumns" resultType="map">
-		select column_name
-		columnName, data_type dataType, column_comment columnComment,
-		column_key columnKey, extra, IS_NULLABLE nullAble from information_schema.columns
-		where table_name = #{tableName} and table_schema = (select database())
-		order by ordinal_position
+	  select column_name columnName, 
+             data_type dataType,
+             column_type columnType,
+             IFNULL(column_default,'NULL') columnDefault, 
+             column_comment columnComment,
+             column_key columnKey, 
+             extra, IS_NULLABLE nullAble 
+		from information_schema.columns
+	   where table_name = #{tableName} and table_schema = (select database())
+	   order by ordinal_position
 	</select>
+	
+	<select id="queryIndexs" resultType="map">
+		select isi.`NAME` indexName,
+		       CONCAT(isi.TYPE,'') indexType,
+		       isf.`NAME` indexFiled
+		  from information_schema.INNODB_SYS_INDEXES isi,
+		       information_schema.INNODB_SYS_TABLES ist,
+		       information_schema.INNODB_SYS_FIELDS isf
+		 where isi.TABLE_ID = ist.TABLE_ID
+		   AND isi.INDEX_ID = isf.INDEX_ID
+		   AND isi.`NAME` != 'PRIMARY'
+		   and ist.`NAME` = (SELECT CONCAT(database(),'/',#{tableName}))
+		  ORDER BY isi.`NAME` 
+    </select>
 
 	<update id="executeDDL" parameterType="java.lang.String">
 		${sql}

@@ -1,4 +1,4 @@
-package org.hzero.generator.utils;
+package org.hzero.generator.util;
 
 /**
  * 自定义异常

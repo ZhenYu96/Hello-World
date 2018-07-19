@@ -4,7 +4,7 @@ server:
         uri-encoding: UTF-8
         max-threads: 1000
         min-spare-threads: 30
-    port: 8080
+    port: 8090
     context-path: /
 
 # mysql
@@ -12,9 +12,9 @@ spring:
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
-        url: jdbc:mysql://172.20.0.202:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8
-        username: hzero
-        password: hzero
+        url: ${SPRING_DATASOURCE_URL:jdbc:mysql://172.20.0.202:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8}
+        username: ${SPRING_DATASOURCE_USERNAME:root}
+        password: ${SPRING_DATASOURCE_PASSWORD:root}
     jackson:
         time-zone: GMT+8
         date-format: yyyy-MM-dd HH:mm:ss

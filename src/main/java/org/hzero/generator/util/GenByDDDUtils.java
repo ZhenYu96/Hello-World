@@ -1,4 +1,4 @@
-package org.hzero.generator.utils;
+package org.hzero.generator.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +13,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -33,16 +30,18 @@ import org.hzero.generator.dto.TableEntity;
  * @author xianzhi.chen@hand-china.com 2018年1月31日下午5:22:25
  * @version
  */
-public class GenByMVCUtils {
-
+public class GenByDDDUtils {
+    
 	public static List<String> getTemplates() {
 		List<String> templates = new ArrayList<String>();
-		templates.add("template/mvc/Dto.java.vm");
-		templates.add("template/mvc/Mapper.java.vm");
-		templates.add("template/mvc/Mapper.xml.vm");
-		templates.add("template/mvc/IService.java.vm");
-		templates.add("template/mvc/ServiceImpl.java.vm");
-		templates.add("template/mvc/Controller.java.vm");
+		templates.add("template/ddd/Controller.java.vm");
+		templates.add("template/ddd/E.java.vm");
+		templates.add("template/ddd/Mapper.java.vm");
+		templates.add("template/ddd/Repository.java.vm");
+		templates.add("template/ddd/RepositoryImpl.java.vm");
+		templates.add("template/ddd/Service.java.vm");
+		templates.add("template/ddd/ServiceImpl.java.vm");
+		templates.add("template/ddd/Mapper.xml.vm");
 		return templates;
 	}
 
@@ -52,14 +51,14 @@ public class GenByMVCUtils {
 	public static void generatorCode(GeneratorInfo info, Map<String, String> table, List<Map<String, String>> columns,
 			ZipOutputStream zip) {
 		// 配置信息
-		Configuration config = getConfig();
+		Configuration config = GeneratorUtils.getConfig();
 		boolean hasBigDecimal = false;
 		// 表信息
 		TableEntity tableEntity = new TableEntity();
 		tableEntity.setTableName(table.get("tableName"));
 		tableEntity.setComments(table.get("tableComment"));
 		// 表名转换成Java类名
-		String className = tableToJava(tableEntity.getTableName(),
+		String className = GeneratorUtils.tableToJava(tableEntity.getTableName(),
 				StringUtils.isBlank(info.getTablePrefix()) ? config.getString("tablePrefix") : info.getTablePrefix());
 		tableEntity.setClassName(className);
 		tableEntity.setClassname(StringUtils.uncapitalize(className));
@@ -74,10 +73,10 @@ public class GenByMVCUtils {
 			columnEntity.setDataType(column.get("dataType"));
 			columnEntity.setComments(column.get("columnComment"));
 			columnEntity.setExtra(column.get("extra"));
-	        columnEntity.setNullAble(column.get("nullAble"));
+			columnEntity.setNullAble(column.get("nullAble"));
 
 			// 列名转换成Java属性名
-			String attrName = columnToJava(columnEntity.getColumnName());
+			String attrName = GeneratorUtils.columnToJava(columnEntity.getColumnName());
 			columnEntity.setAttrName(attrName);
 			columnEntity.setAttrname(StringUtils.uncapitalize(attrName));
 
@@ -113,9 +112,11 @@ public class GenByMVCUtils {
 		map.put("tableName", tableEntity.getTableName());
 		map.put("comments", tableEntity.getComments());
 		map.put("pk", tableEntity.getPk());
+		map.put("pkUpperFileName", StringUtils.upperCase(tableEntity.getPk().getColumnName()));
 		map.put("className", tableEntity.getClassName());
 		map.put("classname", tableEntity.getClassname());
 		map.put("upperClassName", StringUtils.upperCase(tableEntity.getTableName()));
+		map.put("lineClassName", GenStringUtils.camelToHorizontalline(tableEntity.getClassname()));
 		map.put("pathName", tableEntity.getClassname().toLowerCase());
 		map.put("columns", tableEntity.getColumns());
 		map.put("hasBigDecimal", hasBigDecimal);
@@ -129,13 +130,14 @@ public class GenByMVCUtils {
 		for (String template : templates) {
 			// 渲染模板
 			StringWriter sw = new StringWriter();
-			Template tpl = Velocity.getTemplate(template, "UTF-8");
+			Template tpl = Velocity.getTemplate(template, GeneratorUtils.DEFAULT_CHARACTER_SET);
 			tpl.merge(context, sw);
 
 			try {
 				// 添加到zip
-				zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(),map.get("package").toString())));
-				IOUtils.write(sw.toString(), zip, "UTF-8");
+				zip.putNextEntry(
+						new ZipEntry(getFileName(template, tableEntity.getClassName(), map.get("package").toString())));
+				IOUtils.write(sw.toString(), zip, GeneratorUtils.DEFAULT_CHARACTER_SET);
 				IOUtils.closeQuietly(sw);
 				zip.closeEntry();
 			} catch (IOException e) {
@@ -145,65 +147,54 @@ public class GenByMVCUtils {
 	}
 
 	/**
-	 * 列名转换成Java属性名
-	 */
-	public static String columnToJava(String columnName) {
-		return WordUtils.capitalizeFully(columnName, new char[] { '_' }).replace("_", "");
-	}
-
-	/**
-	 * 表名转换成Java类名
-	 */
-	public static String tableToJava(String tableName, String tablePrefix) {
-		if (StringUtils.isNotBlank(tablePrefix)) {
-			tableName = tableName.replace(tablePrefix, "");
-		}
-		return columnToJava(tableName);
-	}
-
-	/**
-	 * 获取配置信息
-	 */
-	public static Configuration getConfig() {
-		try {
-			return new PropertiesConfiguration("generator.properties");
-		} catch (ConfigurationException e) {
-			throw new GenException("获取配置文件失败，", e);
-		}
-	}
-
-	/**
 	 * 获取文件名
 	 */
 	public static String getFileName(String template, String className, String packageName) {
-		String packagePath = "main" + File.separator + "java" + File.separator;
+
+		String javaPackagePath = "main" + File.separator + "java" + File.separator;
+		
 		if (StringUtils.isNotBlank(packageName)) {
-			packagePath += packageName.replace(".", File.separator) + File.separator;
-		}
+          javaPackagePath += packageName.replace(".", File.separator) + File.separator;
+        }
 
-		if (template.contains("Dto.java.vm")) {
-			return packagePath + "dto" + File.separator + className + ".java";
-		}
+		String resourcePackagePath = "main" + File.separator + "resources" + File.separator;
 
-		if (template.contains("Mapper.java.vm")) {
-			return packagePath + "mapper" + File.separator + className + "Mapper.java";
-		}
-
-		if (template.contains("IService.java.vm")) {
-			return packagePath + "service" + File.separator + "I" + className + "Service.java";
-		}
-
-		if (template.contains("ServiceImpl.java.vm")) {
-			return packagePath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
+		if (template.contains("E.java.vm")) {
+			return javaPackagePath + "domain" + File.separator + "entity" + File.separator + className + ".java";
 		}
 
 		if (template.contains("Controller.java.vm")) {
-			return packagePath + "controller" + File.separator + className + "Controller.java";
+			return javaPackagePath + "api" + File.separator + "controller" + File.separator + "v1" + File.separator
+					+ className + "Controller.java";
+		}
+
+		if (template.contains("Mapper.java.vm")) {
+			return javaPackagePath + "infra" + File.separator + "mapper" + File.separator + className + "Mapper.java";
+		}
+
+		if (template.contains("Repository.java.vm")) {
+			return javaPackagePath + "domain" + File.separator + "repository" + File.separator + className
+					+ "Repository.java";
+		}
+
+		if (template.contains("RepositoryImpl.java.vm")) {
+			return javaPackagePath + "infra" + File.separator + "repository" + File.separator + "impl" + File.separator
+					+ className + "RepositoryImpl.java";
+		}
+
+		if (template.contains("Service.java.vm")) {
+			return javaPackagePath + "app" + File.separator + "service" + File.separator + className + "Service.java";
+		}
+
+		if (template.contains("ServiceImpl.java.vm")) {
+			return javaPackagePath + "app" + File.separator + "service" + File.separator + "impl" + File.separator
+					+ className + "ServiceImpl.java";
 		}
 
 		if (template.contains("Mapper.xml.vm")) {
-			return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + className + "Mapper.xml";
+			return resourcePackagePath + "mapper" + File.separator + className + "Mapper.xml";
 		}
+
 		return null;
 	}
 }

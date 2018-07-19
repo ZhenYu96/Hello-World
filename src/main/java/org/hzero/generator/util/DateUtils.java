@@ -1,4 +1,4 @@
-package org.hzero.generator.utils;
+package org.hzero.generator.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
