@@ -10,7 +10,6 @@ server:
 # mysql
 spring:
     datasource:
-        type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
         url: ${SPRING_DATASOURCE_URL:jdbc:mysql://172.20.0.202:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8}
         username: ${SPRING_DATASOURCE_USERNAME:root}
