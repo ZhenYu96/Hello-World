@@ -7,7 +7,6 @@ The standard labels are frequently used in metadata.
 {{- define "service.microservice.labels" -}}
 choerodon.io/version: {{ .Chart.Version | quote }}
 choerodon.io/service: {{ .Chart.Name | quote }}
-choerodon.io/metrics-port: {{ .Values.deployment.managementPort | quote }}
 {{- end -}}
 
 {{- define "service.labels.standard" -}}
