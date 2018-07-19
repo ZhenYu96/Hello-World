@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: hzero-generator
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
   cloud:
     config:
       failFast: true
@@ -10,7 +12,6 @@ spring:
         maxAttempts: 6
         multiplier: 1.5
         maxInterval: 2000
-      uri: localhost:8010
       enabled: false
 management:
   port: 8091

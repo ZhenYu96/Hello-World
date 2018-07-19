@@ -10,7 +10,7 @@ server:
 # mysql
 spring:
     datasource:
-        url: ${SPRING_DATASOURCE_URL:jdbc:mysql://172.20.0.202:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8}
+        url: ${SPRING_DATASOURCE_URL:jdbc:mysql://172.20.0.202:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
         username: ${SPRING_DATASOURCE_USERNAME:root}
         password: ${SPRING_DATASOURCE_PASSWORD:root}
     jackson:
