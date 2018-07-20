@@ -77,6 +77,7 @@ public class GenDBScriptUtils {
         StringBuilder columnSb = new StringBuilder();
         IndexEntity indexEntity = null;
         List<String> indexColumns = null;
+        int pkCnt = 0;
         for (Map<String, String> index : indexs) {
             if (!indexName.equals(index.get("indexName"))) {
                 if (StringUtils.isNotBlank(columnSb.toString())) {
@@ -110,7 +111,10 @@ public class GenDBScriptUtils {
                 columnSb.append(",");
                 indexColumns.add(index.get("indexFiled"));
             }
-
+            // 判断组件字段数量
+            if ("3".equals(index.get("indexType").trim())) {
+                pkCnt++;
+            }
         }
         if (StringUtils.isNotBlank(columnSb.toString())) {
             indexEntity.setIndexColumn(columnSb.toString().substring(0, columnSb.toString().length() - 1));
@@ -129,6 +133,7 @@ public class GenDBScriptUtils {
         map.put("tableName", tableEntity.getTableName());
         map.put("tableComment", tableEntity.getComments());
         map.put("pk", tableEntity.getPk());
+        map.put("pkCnt", pkCnt);
         map.put("className", tableEntity.getClassName());
         map.put("comments", tableEntity.getComments());
         map.put("columns", tableEntity.getColumns());

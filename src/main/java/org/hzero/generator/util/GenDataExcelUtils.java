@@ -1,23 +1,15 @@
 package org.hzero.generator.util;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.hzero.generator.dto.ColumnEntity;
 import org.hzero.generator.dto.GeneratorEntity;
 import org.hzero.generator.dto.IndexEntity;
