@@ -4,7 +4,7 @@ databaseChangeLog(logicalFilePath: 'script/db/${tableName}.groovy') {
     changeSet(author: "${author}", id: "${datetime}-${tableName}") {
         createTable(tableName: "${tableName}", remarks: "${tableComment}") {
 #foreach ($column in $columns)
-        column(name: "$column.columnName", type: "$column.columnType",#if($column.extra == "auto_increment") autoIncrement: true , #end #if($column.columnDefault != "NULL") #if($column.columnType == "datetime") defaultValueComputed:"$column.columnDefault", #else defaultValue:"$column.columnDefault", #end #end remarks: "$column.comments") #if(${pkCnt} == 1) {constraints(primaryKey: true)} #else #if($column.nullAble == 'NO'){constraints(nullable:"false")} #end #end
+        column(name: "$column.columnName", type: "$column.columnType",#if($column.extra == "auto_increment") autoIncrement: true , #end #if($column.columnDefault != "NULL") #if($column.columnType == "datetime") defaultValueComputed:"$column.columnDefault", #else defaultValue:"$column.columnDefault", #end #end remarks: "$column.comments") #if(${pkCnt} == 1 && $pk.columnName == $column.columnName) {constraints(primaryKey: true)} #else #if($column.nullAble == 'NO'){constraints(nullable:"false")} #end #end
 
 #end
 
