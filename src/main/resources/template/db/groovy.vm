@@ -2,9 +2,9 @@ package script.db
 
 databaseChangeLog(logicalFilePath: 'script/db/${tableName}.groovy') {
     changeSet(author: "${author}", id: "${datetime}-${tableName}") {
-        createTable(tableName: "${tableName}") {
+        createTable(tableName: "${tableName}", remarks: "${tableComment}") {
 #foreach ($column in $columns)
-        column(name: "$column.columnName", type: "$column.columnType",#if($column.extra == "auto_increment") autoIncrement: true , #end #if($column.columnDefault != "NULL") #if($column.columnType == "datetime") defaultValueComputed:"$column.columnDefault", #else defaultValue:"$column.columnDefault", #end #end remarks: "$column.comments") #if($column.columnName == $pk.columnName){constraints(primaryKey: true)} #else #if($column.nullAble == 'NO'){constraints(nullable:"false")} #end #end
+        column(name: "$column.columnName", type: "$column.columnType",#if($column.extra == "auto_increment") autoIncrement: true , #end #if($column.columnDefault != "NULL") #if($column.columnType == "datetime") defaultValueComputed:"$column.columnDefault", #else defaultValue:"$column.columnDefault", #end #end remarks: "$column.comments") #if($column.nullAble == 'NO'){constraints(nullable:"false")} #end
 
 #end
 
@@ -21,7 +21,9 @@ databaseChangeLog(logicalFilePath: 'script/db/${tableName}.groovy') {
 
 #foreach ($index in $indexs)
 #if($index.indexType == "U")
-   addUniqueConstraint(columnNames:"$index.indexColumn",tableName:"$index.tableName",constraintName: "$index.indexName")         
+   addUniqueConstraint(columnNames:"$index.indexColumn",tableName:"$index.tableName",constraintName: "$index.indexName")   
+#elseif($index.indexType == "P")
+   addPrimaryKey(columnNames:"$index.indexColumn",tableName:"$index.tableName",constraintName: "$index.indexName")        
 #end
 #end
   }    

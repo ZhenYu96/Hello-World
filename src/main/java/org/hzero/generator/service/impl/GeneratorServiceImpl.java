@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
-import org.hzero.generator.dto.GeneratorInfo;
+import org.hzero.generator.dto.GeneratorEntity;
 import org.hzero.generator.mapper.GeneratorMapper;
 import org.hzero.generator.service.IGeneratorService;
 import org.hzero.generator.util.GenByDDDUtils;
@@ -63,7 +63,7 @@ public class GeneratorServiceImpl implements IGeneratorService {
      * @return
      */
     @Override
-    public byte[] generatorCodeByDDD(GeneratorInfo info) {
+    public byte[] generatorCodeByDDD(GeneratorEntity info) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
         for (String tableName : info.getTableNames()) {
@@ -85,7 +85,7 @@ public class GeneratorServiceImpl implements IGeneratorService {
      * @return
      */
     @Override
-    public byte[] generatorCodeByMVC(GeneratorInfo info) {
+    public byte[] generatorCodeByMVC(GeneratorEntity info) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
         for (String tableName : info.getTableNames()) {
@@ -101,7 +101,7 @@ public class GeneratorServiceImpl implements IGeneratorService {
     }
 
     @Override
-    public byte[] generatorDBScript(GeneratorInfo info) {
+    public byte[] generatorDBScript(GeneratorEntity info) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
         for (String tableName : info.getTableNames()) {

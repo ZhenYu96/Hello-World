@@ -24,20 +24,13 @@ import org.hzero.generator.dto.IndexEntity;
 import org.hzero.generator.dto.TableEntity;
 
 /**
- * 代码生成器 工具类
+ * 初始化数据生成工具类
  * 
- * @name GenUtils
- * @description
+ * @name GenDataExcelUtils
  * @author xianzhi.chen@hand-china.com 2018年1月31日下午5:22:25
  * @version
  */
-public class GenDBScriptUtils {
-
-    public static List<String> getTemplates() {
-        List<String> templates = new ArrayList<String>();
-        templates.add("template/db/groovy.vm");
-        return templates;
-    }
+public class GenDataExcelUtils {
 
     /**
      * 生成代码
@@ -99,7 +92,7 @@ public class GenDBScriptUtils {
                         indexEntity.setIndexType("U");
                         break;
                     case "3": // 主键索引
-                        indexEntity.setIndexType("P");
+                        indexEntity.setIndexType("I");
                         break;
                 }
                 columnSb.append(index.get("indexFiled"));
@@ -119,11 +112,6 @@ public class GenDBScriptUtils {
         }
         tableEntity.setIndexs(indexList);
 
-        // 设置velocity资源加载器
-        Properties prop = new Properties();
-        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        Velocity.init(prop);
-
         // 封装模板数据
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", tableEntity.getTableName());
@@ -135,38 +123,29 @@ public class GenDBScriptUtils {
         map.put("indexs", tableEntity.getIndexs());
         map.put("author", StringUtils.isBlank(info.getAuthor()) ? config.getString("author") : info.getAuthor());
         map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_PATTERN));
-        VelocityContext context = new VelocityContext(map);
 
-        // 获取模板列表
-        List<String> templates = getTemplates();
-        for (String template : templates) {
-            // 渲染模板
-            StringWriter sw = new StringWriter();
-            Template tpl = Velocity.getTemplate(template, GeneratorUtils.DEFAULT_CHARACTER_SET);
-            tpl.merge(context, sw);
-            try {
-                // 添加到zip
-                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getTableName())));
-                IOUtils.write(sw.toString(), zip, GeneratorUtils.DEFAULT_CHARACTER_SET);
-                IOUtils.closeQuietly(sw);
-                zip.closeEntry();
-            } catch (IOException e) {
-                throw new GenException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
-            }
-        }
+        // 初始化模板
+        String template = "template/data/init-data.xlsx";
+
     }
 
     /**
      * 获取文件名
      */
-    public static String getFileName(String template, String tableName) {
+    public static String getFileName(String dateStr, String tableName) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("main");
+        sb.append(File.separator);
+        sb.append("resources");
+        sb.append(File.separator);
+        sb.append("script");
+        sb.append(File.separator);
+        sb.append("db");
+        sb.append(File.separator);
+        sb.append(dateStr);
+        sb.append(tableName);
+        sb.append(".xlsx");
+        return sb.toString();
 
-        String dbScriptPath = "main" + File.separator + "resources" + File.separator;
-
-        if (template.contains("groovy.vm")) {
-            return dbScriptPath + "script" + File.separator + "db" + File.separator + tableName + ".groovy";
-        }
-
-        return null;
     }
 }

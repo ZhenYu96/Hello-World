@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.hzero.generator.dto.DDLEntity;
-import org.hzero.generator.dto.GeneratorInfo;
+import org.hzero.generator.dto.GeneratorEntity;
 import org.hzero.generator.service.IGeneratorService;
 import org.hzero.generator.util.DateUtils;
 import org.hzero.generator.util.GeneratorUtils;
@@ -61,7 +61,7 @@ public class GeneratorController {
 	 */
 	@RequestMapping("/ddd/code")
 	public void codeByDDD(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		GeneratorInfo info = new GeneratorInfo();
+		GeneratorEntity info = new GeneratorEntity();
 		String[] tableNames = new String[] {};
 		String tables = request.getParameter("tables");
 		tableNames = JSON.parseArray(tables).toArray(tableNames);
@@ -82,7 +82,7 @@ public class GeneratorController {
 	 */
 	@RequestMapping("/mvc/code")
 	public void codeByMVC(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		GeneratorInfo info = new GeneratorInfo();
+		GeneratorEntity info = new GeneratorEntity();
 		String[] tableNames = new String[] {};
 		String tables = request.getParameter("tables");
 		tableNames = JSON.parseArray(tables).toArray(tableNames);
@@ -103,7 +103,7 @@ public class GeneratorController {
      */
     @RequestMapping("/db/code")
     public void codeByDBScipt(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        GeneratorInfo info = new GeneratorInfo();
+        GeneratorEntity info = new GeneratorEntity();
         String[] tableNames = new String[] {};
         String tables = request.getParameter("tables");
         tableNames = JSON.parseArray(tables).toArray(tableNames);

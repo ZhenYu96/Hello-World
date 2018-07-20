@@ -3,7 +3,7 @@ package org.hzero.generator.service;
 import java.util.List;
 import java.util.Map;
 
-import org.hzero.generator.dto.GeneratorInfo;
+import org.hzero.generator.dto.GeneratorEntity;
 
 /**
  * 代码生成器服务接口类 description
@@ -63,7 +63,7 @@ public interface IGeneratorService {
      * @param info
      * @return
      */
-    byte[] generatorCodeByDDD(GeneratorInfo info);
+    byte[] generatorCodeByDDD(GeneratorEntity info);
 
     /**
      * MVC模型代码生成
@@ -71,7 +71,7 @@ public interface IGeneratorService {
      * @param info
      * @return
      */
-    byte[] generatorCodeByMVC(GeneratorInfo info);
+    byte[] generatorCodeByMVC(GeneratorEntity info);
 
     /**
      * Lquibase脚本生成
@@ -79,7 +79,7 @@ public interface IGeneratorService {
      * @param info
      * @return
      */
-    byte[] generatorDBScript(GeneratorInfo info);
+    byte[] generatorDBScript(GeneratorEntity info);
 
     /**
      * 执行SQL语句 description

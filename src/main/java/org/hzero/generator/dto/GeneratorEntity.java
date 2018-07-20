@@ -3,12 +3,12 @@ package org.hzero.generator.dto;
 /**
  * 代码生成信息
  * 
- * @name GeneratorInfo
+ * @name GeneratorEntity
  * @description
  * @author xianzhi.chen@hand-china.com 2018年3月8日下午10:28:51
  * @version
  */
-public class GeneratorInfo {
+public class GeneratorEntity {
 
 	private String tablePrefix;
 

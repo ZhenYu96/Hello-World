@@ -52,10 +52,9 @@
 		       information_schema.INNODB_SYS_FIELDS isf
 		 where isi.TABLE_ID = ist.TABLE_ID
 		   AND isi.INDEX_ID = isf.INDEX_ID
-		   AND isi.`NAME` != 'PRIMARY'
 		   and ist.`NAME` = (SELECT CONCAT(database(),'/',#{tableName}))
 		  ORDER BY isi.`NAME` 
-    </select>
+    </select>"src/main/resources/template/db/groovy.vm"
 
 	<update id="executeDDL" parameterType="java.lang.String">
 		${sql}
