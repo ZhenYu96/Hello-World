@@ -2,7 +2,7 @@ package script.db
 
 databaseChangeLog(logicalFilePath: 'script/db/${tableName}.groovy') {
     changeSet(author: "${author}", id: "${datetime}-${tableName}") {
-        createTable(tableName: "${tableName}" remarks: "${tableComment}") {
+        createTable(tableName: "${tableName}") {
 #foreach ($column in $columns)
         column(name: "$column.columnName", type: "$column.columnType",#if($column.extra == "auto_increment") auto_increment:"true" #end #if($column.columnDefault != "NULL") #if($column.columnType == "datetime") defaultValueComputed:"$column.columnDefault" #else defaultValue:"$column.columnDefault" #end #end remarks: "$column.comments") #if($column.columnName == $pk.columnName){constraints(primaryKey: true)} #else #if($column.nullAble == 'NO'){constraints(nullable:"false")} #end #end
 
