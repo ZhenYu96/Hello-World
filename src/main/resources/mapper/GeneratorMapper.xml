@@ -54,7 +54,7 @@
 		   AND isi.INDEX_ID = isf.INDEX_ID
 		   and ist.`NAME` = (SELECT CONCAT(database(),'/',#{tableName}))
 		  ORDER BY isi.`NAME` 
-    </select>"src/main/resources/template/db/groovy.vm"
+    </select>
 
 	<update id="executeDDL" parameterType="java.lang.String">
 		${sql}
