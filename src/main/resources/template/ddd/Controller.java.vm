@@ -32,7 +32,7 @@ public class ${className}Controller extends BaseController {
     @ApiOperation(value = "${comments}列表")
     @Permission(level = ResourceLevel.SITE)
     @GetMapping
-    public ResponseEntity<?> list(${className} ${classname}, @ApiIgnore @SortDefault(value = ${className}.FILED_${pkUpperFileName},
+    public ResponseEntity<?> list(${className} ${classname}, @ApiIgnore @SortDefault(value = ${className}.FIELD_${pkUpperFileName},
             direction = Sort.Direction.DESC) PageRequest pageRequest) {
         Page<${className}> list = ${classname}Repository.pageAndSort(pageRequest, ${classname});
         return Results.success(list);
