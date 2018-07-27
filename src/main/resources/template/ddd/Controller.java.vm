@@ -1,6 +1,6 @@
 package ${package}.api.controller.v1;
 
-import org.hzero.boot.supporter.utils.Results;
+import org.hzero.boot.supporter.util.Results;
 import org.hzero.boot.supporter.base.BaseController;
 import ${package}.domain.entity.${className};
 import ${package}.domain.repository.${className}Repository;
