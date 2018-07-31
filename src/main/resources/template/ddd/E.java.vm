@@ -46,10 +46,12 @@ $column.columnName != "created_by" && $column.columnName != "last_update_date" &
 #if($column.columnName != "object_version_number" && $column.columnName != "creation_date" && 
 $column.columnName != "created_by" && $column.columnName != "last_update_date" && $column.columnName != "last_updated_by")
 #if($column.columnName == $pk.columnName)
+    @ApiModelProperty("$column.comments")
     @Id
     @GeneratedValue
 #else
 #if($column.nullAble == 'NO')
+    @ApiModelProperty(value = "$column.comments",required = true)
 #if($column.attrType == 'String')
     @NotBlank
 #else  
@@ -57,7 +59,6 @@ $column.columnName != "created_by" && $column.columnName != "last_update_date" &
 #end    
 #end
 #end
-    @ApiModelProperty("$column.comments")
     private $column.attrType $column.attrname;
 #end
 #end
