@@ -12,7 +12,6 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.hzero.generator.dto.ColumnEntity;
 import org.hzero.generator.dto.GeneratorEntity;
-import org.hzero.generator.dto.IndexEntity;
 import org.hzero.generator.dto.TableEntity;
 
 /**
@@ -29,8 +28,7 @@ public class GenDataExcelUtils {
      * 
      * @param indexs
      */
-    public static void generatorCode(GeneratorEntity info, Map<String, String> table, List<Map<String, String>> columns,
-                    List<Map<String, String>> indexs, ZipOutputStream zip) {
+    public static void generatorCode(GeneratorEntity info, Map<String, String> table, List<Map<String, String>> columns, ZipOutputStream zip) {
         // 配置信息
         Configuration config = GeneratorUtils.getConfig();
         // 表信息
@@ -55,54 +53,6 @@ public class GenDataExcelUtils {
             columsList.add(columnEntity);
         }
         tableEntity.setColumns(columsList);
-
-        // 索引信息
-        List<IndexEntity> indexList = new ArrayList<>();
-        String indexName = "$";
-        StringBuilder columnSb = new StringBuilder();
-        IndexEntity indexEntity = null;
-        List<String> indexColumns = null;
-        for (Map<String, String> index : indexs) {
-            if (!indexName.equals(index.get("indexName"))) {
-                if (StringUtils.isNotBlank(columnSb.toString())) {
-                    indexEntity.setIndexColumn(columnSb.toString().substring(0, columnSb.toString().length() - 1));
-                    indexEntity.setIndexColumns(indexColumns);
-                    indexList.add(indexEntity);
-                }
-                columnSb.delete(0, columnSb.length());
-                indexColumns = new ArrayList<>();
-                indexEntity = new IndexEntity();
-                indexName = index.get("indexName");
-                indexEntity.setTableName(tableEntity.getTableName());
-                indexEntity.setIndexName(indexName);
-                String indexType = index.get("indexType").trim();
-                switch (indexType) {
-                    case "0": // 普通索引
-                        indexEntity.setIndexType("N");
-                        break;
-                    case "2": // 唯一性索引
-                        indexEntity.setIndexType("U");
-                        break;
-                    case "3": // 主键索引
-                        indexEntity.setIndexType("I");
-                        break;
-                }
-                columnSb.append(index.get("indexFiled"));
-                columnSb.append(",");
-                indexColumns.add(index.get("indexFiled"));
-            } else {
-                columnSb.append(index.get("indexFiled"));
-                columnSb.append(",");
-                indexColumns.add(index.get("indexFiled"));
-            }
-
-        }
-        if (StringUtils.isNotBlank(columnSb.toString())) {
-            indexEntity.setIndexColumn(columnSb.toString().substring(0, columnSb.toString().length() - 1));
-            indexEntity.setIndexColumns(indexColumns);
-            indexList.add(indexEntity);
-        }
-        tableEntity.setIndexs(indexList);
 
         // 封装模板数据
         Map<String, Object> map = new HashMap<>();

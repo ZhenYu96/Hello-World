@@ -12,12 +12,15 @@ import java.math.BigDecimal;
 #end
 import io.choerodon.mybatis.annotation.ModifyAudit;
 import io.choerodon.mybatis.annotation.VersionAudit;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * ${comments}
  *
  * @author ${author} ${datetime}
  */
+@ApiModel("${comments}")
 @VersionAudit
 @ModifyAudit
 @Table(name = "${tableName}")
@@ -54,6 +57,7 @@ $column.columnName != "created_by" && $column.columnName != "last_update_date" &
 #end    
 #end
 #end
+    @ApiModelProperty("$column.comments")
     private $column.attrType $column.attrname;
 #end
 #end
