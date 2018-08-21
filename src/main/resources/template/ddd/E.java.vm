@@ -10,6 +10,9 @@ import org.hzero.boot.supporter.entity.AuditDomain;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end
+#if(${hasDate})
+import java.util.Date;
+#end
 import io.choerodon.mybatis.annotation.ModifyAudit;
 import io.choerodon.mybatis.annotation.VersionAudit;
 import io.swagger.annotations.ApiModel;
@@ -56,7 +59,9 @@ $column.columnName != "created_by" && $column.columnName != "last_update_date" &
     @NotBlank
 #else  
     @NotNull
-#end    
+#end
+#else
+   @ApiModelProperty(value = "$column.comments")    
 #end
 #end
     private $column.attrType $column.attrname;

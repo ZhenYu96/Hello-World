@@ -51,15 +51,15 @@ public class ${className}Controller extends BaseController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ${className} ${classname}) {
         ${classname}Repository.insertSelective(${classname});
-        return Results.success();
+        return Results.success(${classname});
     }
 
     @ApiOperation(value = "修改${comments}")
     @Permission(level = ResourceLevel.SITE)
     @PutMapping
     public ResponseEntity<?> update(@RequestBody ${className} ${classname}) {
-        ${classname}Repository.updateByPrimaryKey(${classname});
-        return Results.success();
+        ${classname}Repository.updateByPrimaryKeySelective(${classname});
+        return Results.success(${classname});
     }
 
     @ApiOperation(value = "删除${comments}")
@@ -67,7 +67,7 @@ public class ${className}Controller extends BaseController {
     @DeleteMapping("/{${pk.attrname}}")
     public ResponseEntity<?> remove(@PathVariable Long ${pk.attrname}) {
         ${classname}Repository.deleteByPrimaryKey(${pk.attrname});
-        return Results.success();
+        return Results.success("");
     }
 
 }

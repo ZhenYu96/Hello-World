@@ -52,6 +52,7 @@ public class GenByDDDUtils {
         // 配置信息
         Configuration config = GeneratorUtils.getConfig();
         boolean hasBigDecimal = false;
+        boolean hasDate = false;
         // 表信息
         TableEntity tableEntity = new TableEntity();
         tableEntity.setTableName(table.get("tableName"));
@@ -85,6 +86,9 @@ public class GenByDDDUtils {
             columnEntity.setAttrType(attrType);
             if (!hasBigDecimal && attrType.equals("BigDecimal")) {
                 hasBigDecimal = true;
+            }
+            if (!hasBigDecimal && attrType.equals("Date")) {
+                hasDate = true;
             }
             // JDBC类型
             columnEntity.setJdbcType(config.getString(attrType));
