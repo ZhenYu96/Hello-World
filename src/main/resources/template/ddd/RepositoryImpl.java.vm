@@ -1,6 +1,6 @@
 package ${package}.infra.repository.impl;
 
-import org.hzero.boot.supporter.base.impl.BaseRepositoryImpl;
+import org.hzero.mybatis.base.impl.BaseRepositoryImpl;
 import ${package}.domain.entity.${className};
 import ${package}.domain.repository.${className}Repository;
 import org.springframework.stereotype.Component;

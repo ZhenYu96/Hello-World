@@ -1,6 +1,6 @@
 package ${package}.domain.repository;
 
-import org.hzero.boot.supporter.base.BaseRepository;
+import org.hzero.mybatis.base.BaseRepository;
 import ${package}.domain.entity.${className};
 
 /**
