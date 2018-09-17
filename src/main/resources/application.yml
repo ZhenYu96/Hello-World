@@ -10,9 +10,34 @@ server:
 # mysql
 spring:
     datasource:
-        url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.12.101:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
-        username: ${SPRING_DATASOURCE_USERNAME:root}
-        password: ${SPRING_DATASOURCE_PASSWORD:root}
+      dynamic:
+        primary: gen
+        datasource:
+          gen: 
+            driver-class-name: com.mysql.jdbc.Driver
+            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.12.101:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+            username: ${SPRING_DATASOURCE_USERNAME:root}
+            password: ${SPRING_DATASOURCE_PASSWORD:root}
+          dev: 
+            driver-class-name: com.mysql.jdbc.Driver
+            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.12.102:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+            username: ${SPRING_DATASOURCE_USERNAME:root}
+            password: ${SPRING_DATASOURCE_PASSWORD:root}
+          tst: 
+            driver-class-name: com.mysql.jdbc.Driver
+            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.12.101:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+            username: ${SPRING_DATASOURCE_USERNAME:root}
+            password: ${SPRING_DATASOURCE_PASSWORD:root}
+          uat: 
+            driver-class-name: com.mysql.jdbc.Driver
+            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.12.101:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+            username: ${SPRING_DATASOURCE_USERNAME:root}
+            password: ${SPRING_DATASOURCE_PASSWORD:root}
+          prd: 
+            driver-class-name: com.mysql.jdbc.Driver
+            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.12.101:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+            username: ${SPRING_DATASOURCE_USERNAME:root}
+            password: ${SPRING_DATASOURCE_PASSWORD:root}
     jackson:
         time-zone: GMT+8
         date-format: yyyy-MM-dd HH:mm:ss

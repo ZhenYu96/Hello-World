@@ -29,7 +29,7 @@ var vm = new Vue({
 
 //路由
 var router = new Router();
-var menus = ["sql.html","mvc.html","ddd.html","db.html"];
+var menus = ["sql.html","mvc.html","ddd.html","db.html","dbcompare.html"];
 routerList(router, menus);
 router.start();
 

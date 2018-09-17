@@ -3,8 +3,6 @@ server:
 spring:
   application:
     name: hzero-generator
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
   cloud:
     config:
       failFast: true
