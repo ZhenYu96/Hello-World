@@ -17,7 +17,7 @@
 				<div class="form-group">
 				    <div class="col-sm-2 control-label">来源环境</div>
                     <div class="col-sm-10">
-                        <select class="form-control" v-model="info.sourceEnv">
+                        <select class="form-control" @change="changeSourceEnv" v-model="info.sourceEnv">
                         <option value="dev">开发环境</option>
                         <option value="tst">测试环境</option>
                         <option value="uat">UAT环境</option>
@@ -28,13 +28,15 @@
 				<div class="form-group">
                     <div class="col-sm-2 control-label">来源数据库</div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="info.sourceDB" placeholder="如:hzero_portal" />
+                        <select class="form-control" v-model="info.sourceDB">
+						    　<option v-for="item in sourceDBList">{{ item }}</option>
+						</select>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-2 control-label">目标环境</div>
                     <div class="col-sm-10">
-                        <select class="form-control" v-model="info.targetEnv">
+                        <select class="form-control" @change="changeTargetEnv" v-model="info.targetEnv">
                         <option value="dev">开发环境</option>
                         <option value="tst">测试环境</option>
                         <option value="uat">UAT环境</option>
@@ -45,7 +47,9 @@
                 <div class="form-group">
                     <div class="col-sm-2 control-label">来源数据库</div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="info.targetDB" placeholder="如:hzero_portal" />
+                        <select class="form-control" v-model="info.targetDB">
+                            　                                       <option v-for="item in targetDBList">{{ item }}</option>
+                        </select>
                     </div>
                 </div>
 				<div class="form-group">

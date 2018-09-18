@@ -27,6 +27,14 @@ public interface IDBInfoService {
      * 生产环境
      */
     String ENV_PRD = "prd";
+    
+    /**
+     * 
+     * 查询数据库(DEV)
+     * 
+     * @return
+     */
+    List<String> selectDevDatabase();
 
     /**
      * 
@@ -57,6 +65,14 @@ public interface IDBInfoService {
 
     /**
      * 
+     * 查询数据库(TST)
+     * 
+     * @return
+     */
+    List<String> selectTstDatabase();
+    
+    /**
+     * 
      * 查询表(TST)
      * 
      * @param dbname
@@ -84,6 +100,14 @@ public interface IDBInfoService {
 
     /**
      * 
+     * 查询数据库(UAT)
+     * 
+     * @return
+     */
+    List<String> selectUatDatabase();
+    
+    /**
+     * 
      * 查询表(UAT)
      * 
      * @param dbname
@@ -109,6 +133,14 @@ public interface IDBInfoService {
      */
     List<Map<String, String>> selectUatDatabaseIndex(String dbname);
 
+    /**
+     * 
+     * 查询数据库(PRD)
+     * 
+     * @return
+     */
+    List<String> selectPrdDatabase();
+    
     /**
      * 
      * 查询表(PRD)

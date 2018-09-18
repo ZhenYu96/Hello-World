@@ -13,6 +13,14 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface DBInfoMapper {
+    
+    /**
+     * 
+     * 查询数据库
+     * 
+     * @return
+     */
+    List<String> selectDatabase();
 
     /**
      * 

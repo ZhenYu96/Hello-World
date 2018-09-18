@@ -1,12 +1,31 @@
 var vm = new Vue({
 	el:'#app',
 	data:{
-		q:{
-			tableName: null
-		},
-        info: {}
+        info: {},
+        sourceDBList: [],
+        targetDBList: []
 	},
 	methods: {
+		changeSourceEnv: function(){
+			$.ajax({
+				type: "GET",
+			    url: "sys/db/database?env="+vm.info.sourceEnv,
+                contentType: "application/json",
+			    success: function(data){
+			    	vm.sourceDBList = data.database;
+				}
+			});
+		},
+		changeTargetEnv: function(){
+			$.ajax({
+				type: "GET",
+			    url: "sys/db/database?env="+vm.info.targetEnv,
+                contentType: "application/json",
+			    success: function(data){
+			    	vm.targetDBList = data.database;
+				}
+			});
+		},
 		compare: function() {
 			if(vm.validator()){
                 return ;

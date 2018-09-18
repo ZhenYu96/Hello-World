@@ -15,6 +15,15 @@ public interface IDBDiffService {
 
     /**
      * 
+     * 数据库查询
+     * 
+     * @param env
+     * @return
+     */
+    public List<String> selectDatabase(String env);
+
+    /**
+     * 
      * 数据库表信息
      * 
      * @param env
@@ -42,10 +51,11 @@ public interface IDBDiffService {
      * @return
      */
     List<Map<String, String>> selectDatabaseIndex(String env, String dbname);
-    
+
     /**
      * 
      * 数据库差异信息XML
+     * 
      * @param sourceEnv
      * @param sourceDB
      * @param targetEnv

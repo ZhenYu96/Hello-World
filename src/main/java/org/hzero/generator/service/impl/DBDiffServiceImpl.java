@@ -28,6 +28,29 @@ public class DBDiffServiceImpl implements IDBDiffService {
 
     @Autowired
     private IDBInfoService dBInfoService;
+    
+    @Override
+    public List<String> selectDatabase(String env) {
+        List<String> databases;
+        switch (env) {
+            case IDBInfoService.ENV_DEV:
+                databases = dBInfoService.selectDevDatabase();
+                break;
+            case IDBInfoService.ENV_TST:
+                databases = dBInfoService.selectTstDatabase();
+                break;
+            case IDBInfoService.ENV_UAT:
+                databases = dBInfoService.selectUatDatabase();
+                break;
+            case IDBInfoService.ENV_PRD:
+                databases = dBInfoService.selectPrdDatabase();
+                break;
+            default:
+                databases = new ArrayList<>();
+                break;
+        }
+        return databases;
+    }
 
     @Override
     public List<String> selectDatabaseTable(String env, String dbname) {
