@@ -205,6 +205,8 @@ public class DBDiffServiceImpl implements IDBDiffService {
                 String priCols = "";
                 StringBuilder sb = new StringBuilder();
                 sb.append("CREATE TABLE ");
+                sb.append(sourceTable);
+                sb.append("( ");
                 for (Map<String, String> sourceColumn : sourceColumns) {
                     if (sourceTable.equals(sourceColumn.get("TABLE_NAME"))) {
                         if (fst == 0) {
@@ -221,10 +223,11 @@ public class DBDiffServiceImpl implements IDBDiffService {
                     }
                 }
                 if (priCols.length() > 1) {
-                    sb.append("\n PRIMARY KEY (");
+                    sb.append(",\n PRIMARY KEY (");
                     sb.append(priCols);
                     sb.append(")");
                 }
+                sb.append(")");
                 // 拼接节点
                 Element sqlElement = getSqlElement(i++);
                 sqlElement.addContent(sb.toString());

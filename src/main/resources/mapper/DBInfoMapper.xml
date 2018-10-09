@@ -45,7 +45,7 @@
 		IF (
 		LENGTH(COLUMN_COMMENT) > 1,
 		CONCAT(
-		' COMMENT " `\'',
+        ' COMMENT \'',
 		COLUMN_COMMENT,
 		'\''
 		),
