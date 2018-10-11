@@ -3,7 +3,8 @@ var vm = new Vue({
 	data:{
         info: {},
         sourceDBList: [],
-        targetDBList: []
+        targetDBList: [],
+        updateDBList: []
 	},
 	methods: {
 		changeSourceEnv: function(){
@@ -26,6 +27,16 @@ var vm = new Vue({
 				}
 			});
 		},
+		changeUpdateEnv: function(){
+			$.ajax({
+				type: "GET",
+			    url: "sys/db/database?env="+vm.info.updateEnv,
+                contentType: "application/json",
+			    success: function(data){
+			    	vm.updateDBList = data.database;
+				}
+			});
+		},
 		compare: function() {
 			if(vm.validator()){
                 return ;
@@ -43,6 +54,26 @@ var vm = new Vue({
 			});
 			*/
 		},
+		dbUpdate: function() {
+			if(vm.updateValidator()){
+                return ;
+            }
+			var formData = new FormData($("#uploadForm")[0]);  
+			$.ajax({
+				type: "POST",
+			    url: "sys/db/update",
+			    cache: false,
+			    data: formData,
+			    processData:false,
+			    contentType:false,
+		        success: function (data) {  
+		        	alert("更新数据库成功");
+		        },  
+		        error: function (data) {  
+		        	alert("更新数据库失败");
+		        }  
+			});
+		},
 		validator: function () {
             if(isBlank(vm.info.sourceEnv)){
                 alert("来源环境不能为空");
@@ -58,6 +89,20 @@ var vm = new Vue({
             }
             if(isBlank(vm.info.targetDB)){
                 alert("目标数据库不能为空");
+                return true;
+            }
+        },
+        updateValidator: function () {
+            if(isBlank(vm.info.updateEnv)){
+                alert("更新环境不能为空");
+                return true;
+            }
+            if(isBlank(vm.info.updateDB)){
+                alert("更新数据库不能为空");
+                return true;
+            }
+            if(isBlank(vm.info.file)){
+                alert("更新文件不能为空");
                 return true;
             }
         }

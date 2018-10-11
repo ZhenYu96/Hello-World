@@ -21,7 +21,7 @@ public class DBInfoServiceImpl implements IDBInfoService {
 
     @Autowired
     private DBInfoMapper dBCmpareMapper;
-    
+
     @Override
     @DS(ENV_DEV)
     public List<String> selectDevDatabase() {
@@ -45,7 +45,13 @@ public class DBInfoServiceImpl implements IDBInfoService {
     public List<Map<String, String>> selectDevDatabaseIndex(String dbname) {
         return dBCmpareMapper.selectDatabaseIndex(dbname);
     }
-    
+
+    @Override
+    @DS(ENV_DEV)
+    public void updateDevDatabase(String sql) {
+        dBCmpareMapper.updateDatabase(sql);
+    }
+
     @Override
     @DS(ENV_TST)
     public List<String> selectTstDatabase() {
@@ -69,7 +75,13 @@ public class DBInfoServiceImpl implements IDBInfoService {
     public List<Map<String, String>> selectTstDatabaseIndex(String dbname) {
         return dBCmpareMapper.selectDatabaseIndex(dbname);
     }
-    
+
+    @Override
+    @DS(ENV_TST)
+    public void updateTstDatabase(String sql) {
+        dBCmpareMapper.updateDatabase(sql);
+    }
+
     @Override
     @DS(ENV_UAT)
     public List<String> selectUatDatabase() {
@@ -93,7 +105,13 @@ public class DBInfoServiceImpl implements IDBInfoService {
     public List<Map<String, String>> selectUatDatabaseIndex(String dbname) {
         return dBCmpareMapper.selectDatabaseIndex(dbname);
     }
-    
+
+    @Override
+    @DS(ENV_UAT)
+    public void updateUatDatabase(String sql) {
+        dBCmpareMapper.updateDatabase(sql);
+    }
+
     @Override
     @DS(ENV_PRD)
     public List<String> selectPrdDatabase() {
@@ -116,6 +134,12 @@ public class DBInfoServiceImpl implements IDBInfoService {
     @DS(ENV_PRD)
     public List<Map<String, String>> selectPrdDatabaseIndex(String dbname) {
         return dBCmpareMapper.selectDatabaseIndex(dbname);
+    }
+
+    @Override
+    @DS(ENV_PRD)
+    public void updatePrdDatabase(String sql) {
+        dBCmpareMapper.updateDatabase(sql);
     }
 
 }

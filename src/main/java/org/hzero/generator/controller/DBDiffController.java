@@ -8,11 +8,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hzero.generator.service.IDBDiffService;
 import org.hzero.generator.util.GeneratorUtils;
+import org.hzero.generator.util.Result;
 import org.jdom2.Document;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/sys/db")
@@ -40,8 +41,8 @@ public class DBDiffController {
      */
     @ResponseBody
     @RequestMapping("/database")
-    public Map<String,List<String>> database(HttpServletRequest request, @RequestParam String env) throws IOException {
-        Map<String,List<String>> map = new HashMap<>();
+    public Map<String, List<String>> database(HttpServletRequest request, @RequestParam String env) throws IOException {
+        Map<String, List<String>> map = new HashMap<>();
         map.put("database", dBDiffService.selectDatabase(env));
         return map;
     }
@@ -55,7 +56,7 @@ public class DBDiffController {
      * @throws IOException
      */
     @RequestMapping("/diff")
-    public void dataDiff(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void dbDiff(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String sourceEnv = request.getParameter("sourceEnv");
         String sourceDB = request.getParameter("sourceDB");
         String targetEnv = request.getParameter("targetEnv");
@@ -73,6 +74,33 @@ public class DBDiffController {
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=" + GeneratorUtils.DEFAULT_CHARACTER_SET);
         IOUtils.write(data, response.getOutputStream());
+    }
+
+    /**
+     * 
+     * 执行更新数据库脚本
+     * 
+     * @param targetEnv
+     * @param targetDB
+     * @param promptFile
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/update")
+    public Result dbUpdate(@RequestParam(value = "file", required = false) MultipartFile xmlFile,
+                    HttpServletRequest request) {
+        String updateEnv = request.getParameter("updateEnv");
+        String updateDB = request.getParameter("updateDB");
+        if (StringUtils.isBlank(updateEnv) || StringUtils.isBlank(updateDB) || xmlFile.isEmpty()) {
+            return Result.error();
+        }
+        try {
+            dBDiffService.dbUpdateImport(updateEnv, updateDB, xmlFile);
+            return Result.ok();
+        } catch (Exception e) {
+            return Result.error();
+        }
+
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 
@@ -13,7 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface DBInfoMapper {
-    
+
     /**
      * 
      * 查询数据库
@@ -48,5 +49,13 @@ public interface DBInfoMapper {
      * @return
      */
     List<Map<String, String>> selectDatabaseIndex(String dbname);
+
+    /**
+     * 
+     * 执行更新数据库脚本
+     * 
+     * @param sqls
+     */
+    void updateDatabase(@Param("sql") String sql);
 
 }

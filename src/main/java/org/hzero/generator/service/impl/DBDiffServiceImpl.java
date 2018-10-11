@@ -1,19 +1,25 @@
 package org.hzero.generator.service.impl;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hzero.generator.service.IDBDiffService;
 import org.hzero.generator.service.IDBInfoService;
 import org.hzero.generator.util.DateUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 
@@ -28,7 +34,7 @@ public class DBDiffServiceImpl implements IDBDiffService {
 
     @Autowired
     private IDBInfoService dBInfoService;
-    
+
     @Override
     public List<String> selectDatabase(String env) {
         List<String> databases;
@@ -123,6 +129,30 @@ public class DBDiffServiceImpl implements IDBDiffService {
     }
 
     @Override
+    public void dbUpdateImport(String updateEnv, String updateDB, MultipartFile xmlFile) {
+        List<String> sqls = getExecuteSqls(updateDB, xmlFile);
+        for (String sql : sqls) {
+            System.out.println(sql);
+            switch (updateEnv) {
+                case IDBInfoService.ENV_DEV:
+                    dBInfoService.updateDevDatabase(sql);
+                    break;
+                case IDBInfoService.ENV_TST:
+                    dBInfoService.updateTstDatabase(sql);
+                    break;
+                case IDBInfoService.ENV_UAT:
+                    dBInfoService.updateUatDatabase(sql);
+                    break;
+                case IDBInfoService.ENV_PRD:
+                    dBInfoService.updatePrdDatabase(sql);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Override
     public Document compareDiff(String sourceEnv, String sourceDB, String targetEnv, String targetDB) {
         // 来源数据库信息
         List<String> sourceTables = selectDatabaseTable(sourceEnv, sourceDB);
@@ -149,6 +179,7 @@ public class DBDiffServiceImpl implements IDBDiffService {
         return document;
     }
 
+    // 新增表信息
     private int processAddTable(List<String> sourceTables, List<String> targetTables,
                     List<Map<String, String>> sourceColumns, List<Map<String, String>> targetColumns,
                     Element rootElement, int i) {
@@ -238,6 +269,7 @@ public class DBDiffServiceImpl implements IDBDiffService {
         return i;
     }
 
+    // 删除表信息
     private int processDelTable(List<String> sourceTables, List<String> targetTables,
                     List<Map<String, String>> sourceColumns, List<Map<String, String>> targetColumns,
                     Element rootElement, int i) {
@@ -363,6 +395,30 @@ public class DBDiffServiceImpl implements IDBDiffService {
         sqlElement.setAttribute("type", "TABLE");
         sqlElement.setAttribute("action", "ALTER");
         return sqlElement;
+    }
+
+    private List<String> getExecuteSqls(String updateDB, MultipartFile xmlFile) {
+        List<String> sqls = new LinkedList<>();
+        SAXBuilder sax = new SAXBuilder();
+        try {
+            InputStream is = xmlFile.getInputStream();
+            Document doc = sax.build(is);
+            Element root = doc.getRootElement();
+            // 获得根节点下的节点数据
+            List<Element> list = root.getChildren();
+            StringBuilder sb = new StringBuilder();
+            sb.append("use ");
+            sb.append(updateDB);
+            sb.append(";\n");
+            for (int i = 0; i < list.size(); i++) {
+                Element e = list.get(i);
+                sb.append(e.getValue() + ";\n");
+            }
+            sqls.add(sb.toString());
+        } catch (Exception e) {
+            logger.error("获取上传文件失败");
+        }
+        return sqls;
     }
 
 }

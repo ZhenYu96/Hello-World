@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jdom2.Document;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 
@@ -63,5 +64,14 @@ public interface IDBDiffService {
      * @return
      */
     Document compareDiff(String sourceEnv, String sourceDB, String targetEnv, String targetDB);
+
+    /**
+     * 
+     * 导入更新数据库脚本
+     * @param targetEnv
+     * @param targetDB
+     * @param promptFile
+     */
+    public void dbUpdateImport(String targetEnv, String targetDB, MultipartFile promptFile);
 
 }
