@@ -3,11 +3,9 @@ package org.hzero.generator.service.impl;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.hzero.generator.service.IDBDiffService;
 import org.hzero.generator.service.IDBInfoService;
@@ -19,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -129,10 +128,10 @@ public class DBDiffServiceImpl implements IDBDiffService {
     }
 
     @Override
-    public void dbUpdateImport(String updateEnv, String updateDB, MultipartFile xmlFile) {
+    @Transactional
+    public void dbUpdateImport(String updateEnv, String updateDB, MultipartFile xmlFile) throws Exception {
         List<String> sqls = getExecuteSqls(updateDB, xmlFile);
         for (String sql : sqls) {
-            System.out.println(sql);
             switch (updateEnv) {
                 case IDBInfoService.ENV_DEV:
                     dBInfoService.updateDevDatabase(sql);
@@ -309,7 +308,6 @@ public class DBDiffServiceImpl implements IDBDiffService {
             }
         }
         return i;
-
     }
 
     // 删除索引
@@ -397,26 +395,17 @@ public class DBDiffServiceImpl implements IDBDiffService {
         return sqlElement;
     }
 
-    private List<String> getExecuteSqls(String updateDB, MultipartFile xmlFile) {
+    private List<String> getExecuteSqls(String updateDB, MultipartFile xmlFile) throws Exception {
         List<String> sqls = new LinkedList<>();
         SAXBuilder sax = new SAXBuilder();
-        try {
-            InputStream is = xmlFile.getInputStream();
-            Document doc = sax.build(is);
-            Element root = doc.getRootElement();
-            // 获得根节点下的节点数据
-            List<Element> list = root.getChildren();
-            StringBuilder sb = new StringBuilder();
-            sb.append("use ");
-            sb.append(updateDB);
-            sb.append(";\n");
-            for (int i = 0; i < list.size(); i++) {
-                Element e = list.get(i);
-                sb.append(e.getValue() + ";\n");
-            }
-            sqls.add(sb.toString());
-        } catch (Exception e) {
-            logger.error("获取上传文件失败");
+        InputStream is = xmlFile.getInputStream();
+        Document doc = sax.build(is);
+        Element root = doc.getRootElement();
+        // 获得根节点下的节点数据
+        List<Element> list = root.getChildren();
+        sqls.add(0, "use " + updateDB);
+        for (Element e : list) {
+            sqls.add(Integer.parseInt(e.getAttributeValue("id")), e.getValue());
         }
         return sqls;
     }

@@ -68,10 +68,11 @@ public interface IDBDiffService {
     /**
      * 
      * 导入更新数据库脚本
+     * 
      * @param targetEnv
      * @param targetDB
      * @param promptFile
      */
-    public void dbUpdateImport(String targetEnv, String targetDB, MultipartFile promptFile);
+    public void dbUpdateImport(String targetEnv, String targetDB, MultipartFile promptFile) throws Exception;
 
 }

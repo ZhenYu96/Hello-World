@@ -56,6 +56,6 @@ public interface DBInfoMapper {
      * 
      * @param sqls
      */
-    void updateDatabase(@Param("sql") String sql);
+    int updateDatabase(@Param("sql") String sql);
 
 }

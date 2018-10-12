@@ -13,9 +13,9 @@
 	<select id="selectDatabaseTable" parameterType="java.lang.String"
 		resultType="java.lang.String">
 		SELECT TABLE_NAME
-		 FROM INFORMATION_SCHEMA.TABLES
+		FROM INFORMATION_SCHEMA.TABLES
 		WHERE TABLE_SCHEMA = #{dbname}
-		  AND TABLE_NAME NOT IN ('databasechangelog','databasechangeloglock')
+		AND TABLE_NAME NOT IN ('databasechangelog','databasechangeloglock')
 	</select>
 
 	<select id="selectDatabaseColumn" parameterType="java.lang.String"
@@ -62,7 +62,8 @@
 		COLUMNS.COLUMN_KEY
 		FROM
 		INFORMATION_SCHEMA.COLUMNS
-		WHERE TABLE_SCHEMA = #{dbname}
+		WHERE TABLE_SCHEMA =
+		#{dbname}
 		ORDER BY
 		TABLE_NAME,
 		ordinal_position
@@ -76,7 +77,8 @@
 		CONCAT(
 		'ADD ',
 
-		IF (NON_UNIQUE = 1, '', 'UNIQUE'),
+		IF
+		(NON_UNIQUE = 1, '', 'UNIQUE'),
 		' INDEX `',
 		INDEX_NAME,
 		'`(',
@@ -87,20 +89,26 @@
 		ORDER BY
 		s.SEQ_IN_INDEX ASC
 		),
-		') USING ',
+		') USING
+		',
 		s.INDEX_TYPE
 		) INDEX_DEF
 		FROM
 		INFORMATION_SCHEMA.STATISTICS s
-		LEFT JOIN INFORMATION_SCHEMA. COLUMNS c ON c.TABLE_NAME =
+		LEFT JOIN
+		INFORMATION_SCHEMA. COLUMNS c ON c.TABLE_NAME =
 		s.TABLE_NAME
-		AND c.COLUMN_NAME = s.COLUMN_NAME
+		AND
+		c.COLUMN_NAME = s.COLUMN_NAME
 		AND c.TABLE_SCHEMA = #{dbname}
-		AND c.extra = 'auto_increment'
+		AND c.extra
+		= 'auto_increment'
 		AND c.column_key = 'PRI'
-		WHERE s.TABLE_SCHEMA = #{dbname}
+		WHERE s.TABLE_SCHEMA =
+		#{dbname}
 		AND c.extra IS NULL
-		AND s.TABLE_NAME NOT IN ('databasechangelog','databasechangeloglock')
+		AND s.TABLE_NAME NOT IN
+		('databasechangelog','databasechangeloglock')
 		AND s.INDEX_NAME NOT IN ('PRIMARY')
 		GROUP BY
 		s.INDEX_NAME,
@@ -109,8 +117,8 @@
 		s.INDEX_TYPE
 	</select>
 
-	<update id="updateDatabase" parameterType="java.lang.String">
-	   ${sql}
+	<update id="updateDatabase">
+		${sql}
 	</update>
 
 </mapper>
