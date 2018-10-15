@@ -33,10 +33,10 @@ public class GenByMVCUtils {
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<String>();
-        templates.add("template/mvc/Dto.java.vm");
+        templates.add("template/mvc/Entity.java.vm");
         templates.add("template/mvc/Mapper.java.vm");
         templates.add("template/mvc/Mapper.xml.vm");
-        templates.add("template/mvc/IService.java.vm");
+        templates.add("template/mvc/Service.java.vm");
         templates.add("template/mvc/ServiceImpl.java.vm");
         templates.add("template/mvc/Controller.java.vm");
         return templates;
@@ -110,6 +110,7 @@ public class GenByMVCUtils {
         map.put("tableName", tableEntity.getTableName());
         map.put("comments", tableEntity.getComments());
         map.put("pk", tableEntity.getPk());
+        map.put("pkUpperFileName", StringUtils.upperCase(tableEntity.getPk().getColumnName()));
         map.put("className", tableEntity.getClassName());
         map.put("classname", tableEntity.getClassname());
         map.put("upperClassName", StringUtils.upperCase(tableEntity.getTableName()));
@@ -151,16 +152,16 @@ public class GenByMVCUtils {
             packagePath += packageName.replace(".", File.separator) + File.separator;
         }
 
-        if (template.contains("Dto.java.vm")) {
-            return packagePath + "dto" + File.separator + className + ".java";
+        if (template.contains("Entity.java.vm")) {
+            return packagePath + "entity" + File.separator + className + ".java";
         }
 
         if (template.contains("Mapper.java.vm")) {
             return packagePath + "mapper" + File.separator + className + "Mapper.java";
         }
 
-        if (template.contains("IService.java.vm")) {
-            return packagePath + "service" + File.separator + "I" + className + "Service.java";
+        if (template.contains("Service.java.vm")) {
+            return packagePath + "service" + File.separator +  className + "Service.java";
         }
 
         if (template.contains("ServiceImpl.java.vm")) {

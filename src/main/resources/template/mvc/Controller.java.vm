@@ -1,82 +1,84 @@
 package ${package}.controller;
 
 import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
+import org.hzero.core.util.Results;
+import org.hzero.core.base.BaseController;
+import ${package}.entity.${className};
+import ${package}.service.${className}Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import ${package}.controller.Result;
-import ${package}.core.util.ValidatorUtils;
-import ${package}.dto.${className};
-import ${package}.service.I${className}Service;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import io.choerodon.core.domain.Page;
+import io.choerodon.mybatis.pagehelper.annotation.SortDefault;
+import io.choerodon.mybatis.pagehelper.domain.PageRequest;
+import io.choerodon.mybatis.pagehelper.domain.Sort;
+import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
- * ${comments}
+ * ${comments} 管理 API
  *
  * @author ${author}
  * @date ${datetime}
  */
-@RestController
-@RequestMapping("api/${pathName}")
-public class ${className}Controller extends AbstractController {
+@RestController("${classname}Controller.v1")
+@RequestMapping("/v1/${pathName}s")
+public class ${className}Controller extends BaseController {
 
     @Autowired
-    private I${className}Service ${classname}Service;
-    
-    private static final String ${upperClassName} = "${classname}";
+    private ${className}Service ${classname}Service;
 
     /**
-     * 列表信息
+     * 列表
      */
-    @RequestMapping("/list")
-    public Result list(${className} ${classname},@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer pageSize){
-        PageHelper.startPage(page, pageSize);
-        List<${className}> list = ${classname}Service.select(${classname});
-        PageInfo<${className}> pageInfo = new PageInfo<${className}>(list);
-        return Result.ok().put(Result.PAGE,pageInfo);
+    @ApiOperation(value = "${comments}列表")
+    @GetMapping
+    public ResponseEntity<?> list(${className} ${classname}, @ApiIgnore @SortDefault(value = ${className}.FIELD_${pkUpperFileName},
+            direction = Sort.Direction.DESC) PageRequest pageRequest){
+        Page<${className}> list = ${classname}Service.pageAndSort(pageRequest, ${classname});
+        return Results.success(list);
     }
 
 
     /**
-     * 详细信息
+     * 详细
      */
-    @RequestMapping("/info/{${pk.attrname}}")
-    public Result info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
-			${className} ${classname} = ${classname}Service.selectById(${pk.attrname});
-        return Result.ok().put(${upperClassName}, ${classname});
+    @ApiOperation(value = "${comments}明细")
+    @RequestMapping("/{${pk.attrname}}")
+    public ResponseEntity<?> detail(@PathVariable Long ${pk.attrname}) {
+        ${className} ${classname} = ${classname}Service.selectByPrimaryKey(${pk.attrname});
+        return Results.success(${classname});
     }
 
     /**
-     * 提交信息（新增或更新）
+     * 创建
      */
-    @RequestMapping("/submit")
-    public Result submit(@RequestBody ${className} ${classname}){
-        ValidatorUtils.validateEntity(${classname});
-        if(${classname}.get${pk.attrName}() == null) {
-			${classname}Service.insertSelective(${classname});
-		}else {
-			${classname}Service.updateSelective(${classname});
-		}
-        return Result.ok();
+    @ApiOperation(value = "创建${comments}")
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody ${className} ${classname}) {
+            ${classname}Service.insertSelective(${classname});
+        return Results.success(${classname});
+    }
+
+    /**
+     * 修改
+     */
+    @ApiOperation(value = "修改${comments}")
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody ${className} ${classname}) {
+            ${classname}Service.updateByPrimaryKeySelective(${classname});
+        return Results.success(${classname});
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    public Result delete(@RequestBody String[] ${pk.attrname}s){
-        String ${pk.attrname} = StringUtils.join(${pk.attrname}s,",");
-        if(StringUtils.isNotBlank(${pk.attrname})) {
-		    ${classname}Service.deleteByIds(${pk.attrname});
-		}
-        return Result.ok();
+    @ApiOperation(value = "删除${comments}")
+    @DeleteMapping("/{${pk.attrname}}")
+    public ResponseEntity<?> remove(@PathVariable Long ${pk.attrname}) {
+            ${classname}Service.deleteByPrimaryKey(${pk.attrname});
+        return Results.success();
     }
 
 }

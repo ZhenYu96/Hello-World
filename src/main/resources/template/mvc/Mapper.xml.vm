@@ -4,7 +4,7 @@
 <mapper namespace="${package}.mapper.${className}Mapper">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap id="BaseResultMap" type="${package}.dto.${className}">
+    <resultMap id="BaseResultMap" type="${package}.entity.${className}">
 #foreach($column in $columns)
         <result column="${column.columnName}" property="${column.attrname}" jdbcType="${column.jdbcType}"/>
 #end

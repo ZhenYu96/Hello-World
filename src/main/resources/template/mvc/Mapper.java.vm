@@ -1,14 +1,14 @@
 package ${package}.mapper;
 
-import ${package}.core.Mapper;
-import ${package}.dto.${className};
+import ${package}.entity.${className};
+import io.choerodon.mybatis.common.BaseMapper;
 
 /**
- * ${comments}Mapper接口
- * 
- * @author ${author}
- * @date ${datetime}
+ * ${comments}Mapper
+ *
+ * @author ${author} ${datetime}
  */
-public interface ${className}Mapper extends Mapper<${className}> {
-	
+public interface ${className}Mapper extends BaseMapper<${className}> {
+
 }
+
