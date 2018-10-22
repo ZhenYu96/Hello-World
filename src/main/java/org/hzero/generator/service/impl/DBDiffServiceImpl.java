@@ -132,6 +132,8 @@ public class DBDiffServiceImpl implements IDBDiffService {
     public void dbUpdateImport(String updateEnv, String updateDB, MultipartFile xmlFile) throws Exception {
         List<String> sqls = getExecuteSqls(updateDB, xmlFile);
         for (String sql : sqls) {
+            // 打印脚本
+            logger.info("==>" + sql);
             switch (updateEnv) {
                 case IDBInfoService.ENV_DEV:
                     dBInfoService.updateDevDatabase(sql);
