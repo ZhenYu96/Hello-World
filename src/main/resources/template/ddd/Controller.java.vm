@@ -7,6 +7,7 @@ import ${package}.domain.repository.${className}Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.hzero.mybatis.helper.SecurityTokenHelper;
 
 import io.choerodon.core.domain.Page;
 import io.choerodon.core.iam.ResourceLevel;
@@ -58,15 +59,17 @@ public class ${className}Controller extends BaseController {
     @Permission(level = ResourceLevel.SITE)
     @PutMapping
     public ResponseEntity<?> update(@RequestBody ${className} ${classname}) {
+        SecurityTokenHelper.validToken(${classname});
         ${classname}Repository.updateByPrimaryKeySelective(${classname});
         return Results.success(${classname});
     }
 
     @ApiOperation(value = "删除${comments}")
     @Permission(level = ResourceLevel.SITE)
-    @DeleteMapping("/{${pk.attrname}}")
-    public ResponseEntity<?> remove(@PathVariable Long ${pk.attrname}) {
-        ${classname}Repository.deleteByPrimaryKey(${pk.attrname});
+    @DeleteMapping
+    public ResponseEntity<?> remove(@RequestBody ${className} ${classname}) {
+        SecurityTokenHelper.validToken(${classname});
+        ${classname}Repository.deleteByPrimaryKey(${classname});
         return Results.success("");
     }
 
