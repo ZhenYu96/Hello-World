@@ -15,27 +15,27 @@ spring:
         datasource:
           gen: 
             driver-class-name: com.mysql.jdbc.Driver
-            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.236:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
             username: ${SPRING_DATASOURCE_USERNAME:hzero}
             password: ${SPRING_DATASOURCE_PASSWORD:hzero}
           dev: 
             driver-class-name: com.mysql.jdbc.Driver
-            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.237:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.221:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
             username: ${SPRING_DATASOURCE_USERNAME:hzero}
             password: ${SPRING_DATASOURCE_PASSWORD:hzero}
           tst: 
             driver-class-name: com.mysql.jdbc.Driver
-            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.236:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
             username: ${SPRING_DATASOURCE_USERNAME:hzero}
             password: ${SPRING_DATASOURCE_PASSWORD:hzero}
           uat: 
             driver-class-name: com.mysql.jdbc.Driver
-            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.236:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
             username: ${SPRING_DATASOURCE_USERNAME:hzero}
             password: ${SPRING_DATASOURCE_PASSWORD:hzero}
           prd: 
             driver-class-name: com.mysql.jdbc.Driver
-            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.236:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
             username: ${SPRING_DATASOURCE_USERNAME:hzero}
             password: ${SPRING_DATASOURCE_PASSWORD:hzero}
     jackson:
