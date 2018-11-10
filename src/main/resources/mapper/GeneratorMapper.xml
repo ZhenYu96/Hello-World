@@ -44,16 +44,25 @@
 	</select>
 	
 	<select id="queryIndexs" resultType="map">
-		select isi.`NAME` indexName,
-		       CONCAT(isi.TYPE,'') indexType,
-		       isf.`NAME` indexFiled
-		  from information_schema.INNODB_SYS_INDEXES isi,
-		       information_schema.INNODB_SYS_TABLES ist,
-		       information_schema.INNODB_SYS_FIELDS isf
-		 where isi.TABLE_ID = ist.TABLE_ID
-		   AND isi.INDEX_ID = isf.INDEX_ID
-		   and ist.`NAME` = (SELECT CONCAT(database(),'/',#{tableName}))
-		  ORDER BY isi.`NAME` 
+		SELECT
+			   CASE
+
+				   WHEN
+					   isi.`NAME` = 'PRIMARY' THEN
+					   CONCAT(SUBSTRING_INDEX(ist.NAME, '/', -1), '_pk') ELSE isi.`NAME`
+					   END indexName,
+			   CONCAT( isi.TYPE, '' ) indexType,
+			   isf.`NAME` indexFiled
+		FROM
+			 information_schema.INNODB_SYS_INDEXES isi,
+			 information_schema.INNODB_SYS_TABLES ist,
+			 information_schema.INNODB_SYS_FIELDS isf
+		WHERE
+				isi.TABLE_ID = ist.TABLE_ID
+		  AND isi.INDEX_ID = isf.INDEX_ID
+		  AND ist.`NAME` = ( SELECT CONCAT( DATABASE ( ), '/', #{tableName} ) )
+		ORDER BY
+				 isi.`NAME`
     </select>
 
 	<update id="executeDDL" parameterType="java.lang.String">
