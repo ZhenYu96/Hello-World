@@ -70,7 +70,7 @@ public class ${className}Controller extends BaseController {
     public ResponseEntity<?> remove(@RequestBody ${className} ${classname}) {
         SecurityTokenHelper.validToken(${classname});
         ${classname}Repository.deleteByPrimaryKey(${classname});
-        return Results.success("");
+        return Results.success();
     }
 
 }
