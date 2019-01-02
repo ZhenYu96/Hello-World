@@ -34,6 +34,7 @@
 	  select column_name columnName, 
              data_type dataType,
              column_type columnType,
+			 CHARACTER_MAXIMUM_LENGTH columnSize,
              IFNULL(column_default,'NULL') columnDefault, 
              column_comment columnComment,
              column_key columnKey, 

@@ -33,6 +33,8 @@ public class ColumnEntity {
 	private String jdbcType;
 	// nullAble
 	private String nullAble;
+	// 列长度
+	private String columnSize;
 
 	public String getColumnName() {
 		return columnName;
@@ -130,4 +132,12 @@ public class ColumnEntity {
         this.nullAble = nullAble;
     }
 
+	public String getColumnSize() {
+		return columnSize;
+	}
+
+	public ColumnEntity setColumnSize(String columnSize) {
+		this.columnSize = columnSize;
+		return this;
+	}
 }

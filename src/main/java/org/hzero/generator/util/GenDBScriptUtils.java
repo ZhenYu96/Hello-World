@@ -62,6 +62,7 @@ public class GenDBScriptUtils {
             columnEntity.setExtra(column.get("extra"));
             columnEntity.setNullAble(column.get("nullAble"));
             columnEntity.setColumnType(column.get("columnType"));
+            columnEntity.setColumnSize(String.valueOf(column.get("columnSize")));
             columnEntity.setColumnDefault(column.get("columnDefault"));
             // 是否主键
             if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableEntity.getPk() == null) {

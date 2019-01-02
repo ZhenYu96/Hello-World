@@ -1,48 +1,49 @@
 # Tomcat
 server:
-    tomcat:
-        uri-encoding: UTF-8
-        max-threads: 1000
-        min-spare-threads: 30
-    port: 8090
-    context-path: /
+  tomcat:
+      uri-encoding: UTF-8
+      max-threads: 1000
+      min-spare-threads: 30
+  port: 8090
+  context-path: /
 
 # mysql
 spring:
-    datasource:
-      dynamic:
-        primary: gen
-        datasource:
-          gen: 
-            driver-class-name: com.mysql.jdbc.Driver
-            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
-            username: ${SPRING_DATASOURCE_USERNAME:root}
-            password: ${SPRING_DATASOURCE_PASSWORD:Root@1234!}
-          dev: 
-            driver-class-name: com.mysql.jdbc.Driver
-            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.221:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
-            username: ${SPRING_DATASOURCE_USERNAME:root}
-            password: ${SPRING_DATASOURCE_PASSWORD:Root@1234!}
-          tst: 
-            driver-class-name: com.mysql.jdbc.Driver
-            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
-            username: ${SPRING_DATASOURCE_USERNAME:root}
-            password: ${SPRING_DATASOURCE_PASSWORD:Root@1234!}
-          uat: 
-            driver-class-name: com.mysql.jdbc.Driver
-            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
-            username: ${SPRING_DATASOURCE_USERNAME:root}
-            password: ${SPRING_DATASOURCE_PASSWORD:Root@1234!}
-          prd: 
-            driver-class-name: com.mysql.jdbc.Driver
-            url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
-            username: ${SPRING_DATASOURCE_USERNAME:root}
-            password: ${SPRING_DATASOURCE_PASSWORD:Root@1234!}
-    jackson:
-        time-zone: GMT+8
-        date-format: yyyy-MM-dd HH:mm:ss
-    resources:
-            static-locations: classpath:/static/,classpath:/view/
+  datasource:
+    dynamic:
+      primary: gen
+      datasource:
+        gen:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306/hzero_generator?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+          username: ${SPRING_DATASOURCE_USERNAME:root}
+          password: ${SPRING_DATASOURCE_PASSWORD:Root@1234!}
+        dev:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.221:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+          username: ${SPRING_DATASOURCE_USERNAME:root}
+          password: ${SPRING_DATASOURCE_PASSWORD:Root@1234!}
+        tst:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+          username: ${SPRING_DATASOURCE_USERNAME:root}
+          password: ${SPRING_DATASOURCE_PASSWORD:Root@1234!}
+        uat:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+          username: ${SPRING_DATASOURCE_USERNAME:root}
+          password: ${SPRING_DATASOURCE_PASSWORD:Root@1234!}
+        prd:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: ${SPRING_DATASOURCE_URL:jdbc:mysql://192.168.11.167:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+          username: ${SPRING_DATASOURCE_USERNAME:root}
+          password: ${SPRING_DATASOURCE_PASSWORD:Root@1234!}
+
+  jackson:
+      time-zone: GMT+8
+      date-format: yyyy-MM-dd HH:mm:ss
+  resources:
+          static-locations: classpath:/static/,classpath:/view/
 
 # Mybatis配置
 mybatis:
