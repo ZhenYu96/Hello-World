@@ -33,7 +33,7 @@ public class ${className}Controller extends BaseController {
     @ApiOperation(value = "${comments}列表")
     @Permission(level = ResourceLevel.SITE)
     @GetMapping
-    public ResponseEntity<?> list(${className} ${classname}, @ApiIgnore @SortDefault(value = ${className}.FIELD_${pkUpperFileName},
+    public ResponseEntity<Page<${className}>> list(${className} ${classname}, @ApiIgnore @SortDefault(value = ${className}.FIELD_${pkUpperFileName},
             direction = Sort.Direction.DESC) PageRequest pageRequest) {
         Page<${className}> list = ${classname}Repository.pageAndSort(pageRequest, ${classname});
         return Results.success(list);
@@ -51,6 +51,7 @@ public class ${className}Controller extends BaseController {
     @Permission(level = ResourceLevel.SITE)
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ${className} ${classname}) {
+        validObject(${classname});
         ${classname}Repository.insertSelective(${classname});
         return Results.success(${classname});
     }
