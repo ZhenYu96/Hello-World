@@ -42,7 +42,7 @@ public class ${className}Controller extends BaseController {
     @ApiOperation(value = "${comments}明细")
     @Permission(level = ResourceLevel.SITE)
     @GetMapping("/{${pk.attrname}}")
-    public ResponseEntity<?> detail(@PathVariable Long ${pk.attrname}) {
+    public ResponseEntity<${className}> detail(@PathVariable Long ${pk.attrname}) {
         ${className} ${classname} = ${classname}Repository.selectByPrimaryKey(${pk.attrname});
         return Results.success(${classname});
     }
