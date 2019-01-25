@@ -50,7 +50,7 @@ public class ${className}Controller extends BaseController {
     @ApiOperation(value = "创建${comments}")
     @Permission(level = ResourceLevel.SITE)
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody ${className} ${classname}) {
+    public ResponseEntity<${className}> create(@RequestBody ${className} ${classname}) {
         validObject(${classname});
         ${classname}Repository.insertSelective(${classname});
         return Results.success(${classname});
@@ -59,7 +59,7 @@ public class ${className}Controller extends BaseController {
     @ApiOperation(value = "修改${comments}")
     @Permission(level = ResourceLevel.SITE)
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody ${className} ${classname}) {
+    public ResponseEntity<${className}> update(@RequestBody ${className} ${classname}) {
         SecurityTokenHelper.validToken(${classname});
         ${classname}Repository.updateByPrimaryKeySelective(${classname});
         return Results.success(${classname});
