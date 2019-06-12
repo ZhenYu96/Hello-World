@@ -23,16 +23,25 @@ import springfox.documentation.annotations.ApiIgnore;
  *
  * @author ${author} ${datetime}
  */
+#if(${level} == "tenant")
 @RestController("${classname}Controller.v1")
+@RequestMapping("/v1/{organizationId}/${lineClassName}s")
+#else
+@RestController("${classname}SiteController.v1")
 @RequestMapping("/v1/${lineClassName}s")
+#end
 public class ${className}Controller extends BaseController {
 
     @Autowired
     private ${className}Repository ${classname}Repository;
 
     @ApiOperation(value = "${comments}列表")
-    @Permission(level = ResourceLevel.SITE)
-    @GetMapping
+    #if(${level} == "tenant")
+@Permission(level = ResourceLevel.ORGANIZATION)
+    #else
+@Permission(level = ResourceLevel.SITE)
+    #end
+@GetMapping
     public ResponseEntity<Page<${className}>> list(${className} ${classname}, @ApiIgnore @SortDefault(value = ${className}.FIELD_${pkUpperFileName},
             direction = Sort.Direction.DESC) PageRequest pageRequest) {
         Page<${className}> list = ${classname}Repository.pageAndSort(pageRequest, ${classname});
@@ -40,16 +49,24 @@ public class ${className}Controller extends BaseController {
     }
 
     @ApiOperation(value = "${comments}明细")
-    @Permission(level = ResourceLevel.SITE)
-    @GetMapping("/{${pk.attrname}}")
+    #if(${level} == "tenant")
+@Permission(level = ResourceLevel.ORGANIZATION)
+    #else
+@Permission(level = ResourceLevel.SITE)
+    #end
+@GetMapping("/{${pk.attrname}}")
     public ResponseEntity<${className}> detail(@PathVariable Long ${pk.attrname}) {
         ${className} ${classname} = ${classname}Repository.selectByPrimaryKey(${pk.attrname});
         return Results.success(${classname});
     }
 
     @ApiOperation(value = "创建${comments}")
-    @Permission(level = ResourceLevel.SITE)
-    @PostMapping
+    #if(${level} == "tenant")
+@Permission(level = ResourceLevel.ORGANIZATION)
+    #else
+@Permission(level = ResourceLevel.SITE)
+    #end
+@PostMapping
     public ResponseEntity<${className}> create(@RequestBody ${className} ${classname}) {
         validObject(${classname});
         ${classname}Repository.insertSelective(${classname});
@@ -57,8 +74,12 @@ public class ${className}Controller extends BaseController {
     }
 
     @ApiOperation(value = "修改${comments}")
-    @Permission(level = ResourceLevel.SITE)
-    @PutMapping
+    #if(${level} == "tenant")
+@Permission(level = ResourceLevel.ORGANIZATION)
+    #else
+@Permission(level = ResourceLevel.SITE)
+    #end
+@PutMapping
     public ResponseEntity<${className}> update(@RequestBody ${className} ${classname}) {
         SecurityTokenHelper.validToken(${classname});
         ${classname}Repository.updateByPrimaryKeySelective(${classname});
@@ -66,8 +87,12 @@ public class ${className}Controller extends BaseController {
     }
 
     @ApiOperation(value = "删除${comments}")
-    @Permission(level = ResourceLevel.SITE)
-    @DeleteMapping
+    #if(${level} == "tenant")
+@Permission(level = ResourceLevel.ORGANIZATION)
+    #else
+@Permission(level = ResourceLevel.SITE)
+    #end
+@DeleteMapping
     public ResponseEntity<?> remove(@RequestBody ${className} ${classname}) {
         SecurityTokenHelper.validToken(${classname});
         ${classname}Repository.deleteByPrimaryKey(${classname});

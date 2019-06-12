@@ -126,6 +126,7 @@ public class GenByDDDUtils {
         map.put("hasBigDecimal", hasBigDecimal);
         map.put("package", StringUtils.isBlank(info.getPkg()) ? config.getString("pkg") : info.getPkg());
         map.put("author", StringUtils.isBlank(info.getAuthor()) ? config.getString("author") : info.getAuthor());
+        map.put("level", StringUtils.isBlank(info.getLevel()) ? "tenant" : info.getLevel());
         map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
         VelocityContext context = new VelocityContext(map);
 

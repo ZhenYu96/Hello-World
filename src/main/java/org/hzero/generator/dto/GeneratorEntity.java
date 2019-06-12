@@ -15,6 +15,8 @@ public class GeneratorEntity {
 	private String pkg;
 
 	private String author;
+	
+	private String level;
 
 	private String[] tableNames;
 
@@ -42,7 +44,15 @@ public class GeneratorEntity {
 		this.author = author;
 	}
 
-	public String[] getTableNames() {
+	public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String[] getTableNames() {
 		return tableNames;
 	}
 

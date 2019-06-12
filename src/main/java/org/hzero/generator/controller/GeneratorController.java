@@ -69,6 +69,7 @@ public class GeneratorController {
 		info.setTablePrefix(request.getParameter("tablePrefix"));
 		info.setPkg(request.getParameter("pkg"));
 		info.setAuthor(request.getParameter("author"));
+		info.setLevel(request.getParameter("level"));
 		byte[] data = generatorService.generatorCodeByDDD(info);
 		response.reset();
 		response.setHeader("Content-Disposition", "attachment; filename=\"code" + DateUtils.format(new Date(),DateUtils.DATETIME_PATTERN) + ".zip\"");

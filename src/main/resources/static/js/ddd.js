@@ -58,7 +58,7 @@ var vm = new Vue({
 			if(tableNames == null){
 				return ;
 			}
-			location.href = "sys/generator/ddd/code?tablePrefix="+vm.info.tablePrefix+"&pkg="+vm.info.pkg+"&author="+vm.info.author+"&tables=" + JSON.stringify(tableNames);
+			location.href = "sys/generator/ddd/code?tablePrefix="+vm.info.tablePrefix+"&pkg="+vm.info.pkg+"&author="+vm.info.author+"&level="+vm.info.level+"&tables=" + JSON.stringify(tableNames);
 			/*
 			$.ajax({
 				type: "POST",
@@ -82,6 +82,10 @@ var vm = new Vue({
             }
             if(isBlank(vm.info.author)){
                 alert("代码作者不能为空");
+                return true;
+            }
+            if(isBlank(vm.info.level)){
+                alert("层级不能为空");
                 return true;
             }
         }
