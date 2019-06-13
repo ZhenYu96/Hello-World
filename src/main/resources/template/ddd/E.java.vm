@@ -5,6 +5,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.validation.constraints.NotBlank;
 import io.choerodon.mybatis.domain.AuditDomain;
 #if(${hasBigDecimal})
@@ -26,6 +28,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("${comments}")
 @VersionAudit
 @ModifyAudit
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 @Table(name = "${tableName}")
 public class ${className} extends AuditDomain {
 
