@@ -1,0 +1,51 @@
+# Tomcat
+server:
+  tomcat:
+      uri-encoding: UTF-8
+      max-threads: 1000
+      min-spare-threads: 30
+  port: 8090
+  context-path: /
+
+# mysql
+spring:
+  datasource:
+    dynamic:
+      primary: gen
+      datasource:
+        gen:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db.hzero.org:3306/hzero_pay?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+          username: ${SPRING_DATASOURCE_USERNAME:hzero}
+          password: ${SPRING_DATASOURCE_PASSWORD:hzero}
+        dev:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db.hzero.org:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+          username: ${SPRING_DATASOURCE_USERNAME:hzero}
+          password: ${SPRING_DATASOURCE_PASSWORD:hzero}
+        tst:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db.hzero.org:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+          username: ${SPRING_DATASOURCE_USERNAME:hzero}
+          password: ${SPRING_DATASOURCE_PASSWORD:hzero}
+        uat:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db.hzero.org:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+          username: ${SPRING_DATASOURCE_USERNAME:hzero}
+          password: ${SPRING_DATASOURCE_PASSWORD:hzero}
+        prd:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db.hzero.org:3306?useUnicode=true&characterEncoding=UTF-8&useSSL=false}
+          username: ${SPRING_DATASOURCE_USERNAME:hzero}
+          password: ${SPRING_DATASOURCE_PASSWORD:hzero}
+
+  jackson:
+      time-zone: GMT+8
+      date-format: yyyy-MM-dd HH:mm:ss
+  resources:
+          static-locations: classpath:/static/,classpath:/view/
+
+# Mybatis配置
+mybatis:
+    mapperLocations: classpath:mapper/**/*.xml
+
